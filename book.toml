@@ -1,0 +1,15 @@
+[book]
+title = "Kusion实战"
+authors = ["kusion-authors"]
+description = "如何用Kusion部署运维Kubernetes应用"
+language = "zh"
+multilingual = false
+src = "."
+
+[build]
+build-dir = "_build"
+
+[output.html]
+git-repository-url = "https://github.com/KusionStack/kusion-in-action-book"
+edit-url-template = "https://github.com/KusionStack/kusion-in-action-book/blob/master/{path}"
+git-repository-icon = "fa-github"
