@@ -2,9 +2,6 @@
 
 本书主要讲解如何使用 Kusion 工具部署 Kubernetes 相关应用。
 
-
-![](cover.png)
-
 - 仓库地址: [https://github.com/KusionStack/kusion-in-action-book](https://github.com/KusionStack/kusion-in-action-book)
 
 >**Note:** 本地安装 [mdbook](https://github.com/rust-lang/mdBook/releases) 二进制工具，后执行 `mdbook serve` 命令启动本地电子书服务，然后打开对应网址查看。

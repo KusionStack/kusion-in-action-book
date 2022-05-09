@@ -2,8 +2,6 @@
 
 本书主要讲解如何使用 Kusion 工具部署 Kubernetes 相关应用。
 
-![](cover.png)
-
 - 仓库地址: [https://github.com/KusionStack/kusion-in-action-book](https://github.com/KusionStack/kusion-in-action-book)
 
 ---
