@@ -246,7 +246,7 @@ demodev-6c85bfcc89-w67ns   1/1     Running   0          6m45s
 ```
 $ kubectl get --namespace demo service
 NAME               TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-frontend-service   NodePort   10.109.154.155   <none>        80:30083/TCP   10m
+frontend-service   NodePort   10.0.0.1         <none>        80:30083/TCP   10m
 ```
 
 服务已经绑定到了宿主机器的 30083 端口，可以在浏览器打开 http://localhost:30083 查看：

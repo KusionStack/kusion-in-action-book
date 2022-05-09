@@ -182,7 +182,7 @@ kubectl get svc -n deployment-single-stack
 
 ```
 NAME               TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-frontend-service   NodePort   10.111.95.95   <none>        80:30226/TCP   11m
+frontend-service   NodePort   10.0.0.1       <none>        80:30226/TCP   11m
 ```
 4、检查应用
 
