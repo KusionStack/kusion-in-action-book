@@ -8,6 +8,7 @@ deploy:
 	-rm -rf ./docs ./_build
 	mdbook build
 	mv ./_build ./docs
+	-rm -rf ./docs/.git
 
 zip:
 	-rm -rf ./kusion-in-action-book
