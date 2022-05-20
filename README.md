@@ -19,6 +19,12 @@
 
 安装成功后可以通过 `mdbook serve` 命令启动本地电子书服务，然后打开 `http://localhost:3000/` 网址查看。或者通过 `mdbook build` 命令构建出静态的 html 页面，然后发布到静态网站即可。
 
+## 部署到 github pages
+
+1. 合并 main 分支到 deploy 分支
+2. 在 deploy 分支执行 `make deploy`
+3. 提交变更
+
 ## 版权
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">《KusionStack 实战》</span> 由 <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/KusionStack/kusion-in-action-book" property="cc:attributionName" rel="cc:attributionURL">KusionStack 团队</a> 采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议</a>进行许可。
