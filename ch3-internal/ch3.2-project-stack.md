@@ -26,7 +26,7 @@ Stack 是一组可以独立部署、单独配置的 KCL 程序，是可以部署
 2. Micro-Project 模式：与微服务类似，Project 由多个较小的 Project 组成，比如一个 Project 需要的基础设施可能包括 Kubernetes 对象、数据库实体、监控实体等，这些基础设施实体均可作为一个较小的 Project 进行单独配置。我们将这些的较小的 Project 称为 Micro-Project，并通过 Stack 进行表示。Stack 仅具有 Project 需要的部分配置。
 3. Hybrid 模式：Hybrid 模式是 Enviroment 模式与 Micro-Project 模式的组合，Stack 不仅可以表示 Project 部署的不同环境，也可以表示 Micro-Project。一般而言，具有 Micro-Project 特性的 Stack 可以和某个具有 Enviroment 特性的 Stack 共同提供 Project 在该环境下的全部配置。具有 Micro-Project 特性的 Stack 往往需要在 Project 的不同环境间进行复用。具有 Enviroment 特性的 Stack 可能也不包含 Project 的需要全部配置。
 
->**Note:** 在 Hybrid 模式中，具有 Micro-Project 特性的 Stack 和 base 文件夹均可提供不同环境中的通用能力，两者存在如下两点不同。1、具有 Micro-Project 特性的 Stack 可以进行编译、部署成一个基础设施实体，而 base 无法和一个基础设施实体进行对应；2、具有 Micro-Project 特性的 Stack 表示一个较小 Project 的配置，而 base 表示多个环境和 Micro-Project 的通用配置。总的来说，只需记住具有 Micro-Project 特性的 Stack 仍是一个 Stack，具备 Stack 的特性；而 base 文件夹只是通用 KCL 程序的集合，并不具备 Stack 的特性。
+> **Note:** 在 Hybrid 模式中，具有 Micro-Project 特性的 Stack 和 base 文件夹均可提供不同环境中的通用能力，两者存在如下两点不同。1、具有 Micro-Project 特性的 Stack 可以进行编译、部署成一个基础设施实体，而 base 无法和一个基础设施实体进行对应；2、具有 Micro-Project 特性的 Stack 表示一个较小 Project 的配置，而 base 表示多个环境和 Micro-Project 的通用配置。总的来说，只需记住具有 Micro-Project 特性的 Stack 仍是一个 Stack，具备 Stack 的特性；而 base 文件夹只是通用 KCL 程序的集合，并不具备 Stack 的特性。
 
 ## 3.2.5 Project 和 Stack 的工程结构
 
@@ -57,4 +57,3 @@ appops/nginx-example
 ```
 
 根目录中有 `project.yaml` 文件表示对应一个 Project，然后 `dev/stack.yaml` 表示对应 Stack，base 目录对应基线配置（不是一个 Stack）。`dev/ci-test` 是测试相关配置和数据，`kcl.yaml` 和 `main.h` 是应用的 KCL 配置程序代码。
-

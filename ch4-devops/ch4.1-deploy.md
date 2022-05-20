@@ -14,15 +14,15 @@
 
 在本篇指南中，需要用到部分已经抽象实现的 KCL 模型，有关 KCL 语言的介绍，可以参考 [Tour of KCL](/reference/lang/lang/tour.md)。
 
-仓库地址： https://github.com/KusionStack/konfig.git
+仓库地址： [https://github.com/KusionStack/konfig.git](https://github.com/KusionStack/konfig.git)
 
 3、可用的 Kubernetes 集群
 
 必须要有一个 Kubernetes 集群，同时 Kubernetes 集群最好带有 [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) 命令行工具。
 如果你还没有集群，你可以通过 [Minikube](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/) 构建一个你自己的集群。
 
-
 > 本指南要求你对 Kubernetes 有基本的了解。不清楚相关概念的，可以前往 Kubernetes 官方网站，查看相关说明：
+
 - [Learn Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
 - [Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
 - [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
@@ -167,7 +167,7 @@ kubectl get deploy -n deployment-single-stack
 
 输出类似于：
 
-```         
+```
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
 deployment-single-stackdev   1/1     1            1           11m
 ```
@@ -184,6 +184,7 @@ kubectl get svc -n deployment-single-stack
 NAME               TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
 frontend-service   NodePort   10.0.0.1       <none>        80:30226/TCP   11m
 ```
+
 4、检查应用
 
 使用 `kubecl` 工具，将本机端口 `30000` 映射到 Service 端口 `80`

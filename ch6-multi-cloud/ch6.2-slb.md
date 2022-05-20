@@ -9,13 +9,13 @@ https://help.aliyun.com/document_detail/111634.html
 
 ## 6.2.1 准备条件
 
-在开始之前，您还需要一个阿里云账号和访问密钥（AccessKey）。 请在阿里云控制台中的[AccessKey管理页面](https://usercenter.console.aliyun.com/?spm=a2c4g.11186623.0.0.12321153zTjLcm#/manage/ak) 上创建和查看您的AccessKey。
+在开始之前，您还需要一个阿里云账号和访问密钥（AccessKey）。 请在阿里云控制台中的 [AccessKey 管理页面](https://usercenter.console.aliyun.com/?spm=a2c4g.11186623.0.0.12321153zTjLcm#/manage/ak) 上创建和查看您的 AccessKey。
 
 本节用到的阿里云资源在 Konfig 中的 `base.pkg.kusion_models.clouds.alicloud` 包定义（还在开发中，查看 [代码](https://github.com/KusionStack/konfig/tree/dev/yuanyi/add_aliyun_and_aws/base/pkg/kusion_models/clouds/alicloud)）。
 
 ## 6.2.2 负载均衡
 
-阿里云 [负载均衡SLB（Server Load Balancer）](https://help.aliyun.com/product/27537.html) 是一种对流量进行按需分发的服务，通过将流量分发到不同的后端服务来扩展应用系统的服务吞吐能力，并且可以消除系统中的单点故障，提升应用系统的可用性。
+阿里云 [负载均衡 SLB（Server Load Balancer）](https://help.aliyun.com/product/27537.html) 是一种对流量进行按需分发的服务，通过将流量分发到不同的后端服务来扩展应用系统的服务吞吐能力，并且可以消除系统中的单点故障，提升应用系统的可用性。
 
 专有网络对应 `base.pkg.kusion_models.clouds.alicloud` 包定义的 `AlicloudSLB` 模型（TODO：参考链接）：
 

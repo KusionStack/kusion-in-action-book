@@ -1,6 +1,5 @@
 # 1.5 IDE 插件
 
-
 为了提高 IDE 开发 KCL 的效率，Kusion 为 VS Code 在线版和本地版本提供了插件支持。在线版本可以从 [https://vscode.dev](https://vscode.dev) 地址打开，然后安装“KCL for vscode.dev 插件”，效果如下:
 
 ![](../images/ch1.5-ide-vscode.png)

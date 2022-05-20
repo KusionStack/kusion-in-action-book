@@ -1,6 +1,6 @@
 # Summary
 
-[Kusion实战](book.md)
+[Kusion 实战](book.md)
 [前言](preface.md)
 
 - [简介](ch1-intro/readme.md)
@@ -34,6 +34,6 @@
   - [贡献文档](ch7-opensource/ch7.2-contribute-docs.md)
   - [贡献代码](ch7-opensource/ch7.3-contribute-code.md)
 - [附录](./appendix/readme.md)
-  - [附录A: FAQ](./appendix/a-faq.md)
-  - [附录B: KCL语法](./appendix/b-kcl.md)
-  - [附录C: 链接](./appendix/c-ref.md)
+  - [附录 A: FAQ](./appendix/a-faq.md)
+  - [附录 B: KCL 语法](./appendix/b-kcl.md)
+  - [附录 C: 链接](./appendix/c-ref.md)

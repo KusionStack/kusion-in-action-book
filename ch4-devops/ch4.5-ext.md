@@ -14,7 +14,7 @@
 
 通过上一步初始化的样例，可以从 `project.yaml` 看到相关配置：
 
-```yaml        
+```yaml
 # The project basic info
 name: deployment-single-stack
 ```
@@ -97,6 +97,7 @@ Service 的名称、类型、暴露的端口号等字段，可通过 `services` 
 > 有关 [Service](/reference/model/models/kube/frontend/service/service.md) 的抽象定义，可以查看 Konfig 仓库中 `base/pkg/kusion_models/kube/frontend/service/service.k` 文件。
 
 `base/bask.k` 中 Service 的配置：
+
 ```py
 appConfiguration: frontend.Server {
     services = [

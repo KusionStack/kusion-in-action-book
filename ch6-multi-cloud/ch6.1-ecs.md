@@ -1,6 +1,6 @@
 # 6.1 ECS 云主机
 
-本文介绍如何使用 Kusion 创建一台ECS实例，以及必须的其他关联资源。
+本文介绍如何使用 Kusion 创建一台 ECS 实例，以及必须的其他关联资源。
 
 <!--
 https://help.aliyun.com/document_detail/95829.html
@@ -8,7 +8,7 @@ https://help.aliyun.com/document_detail/95829.html
 
 ## 6.1.1 准备条件
 
-在开始之前，您还需要一个阿里云账号和访问密钥（AccessKey）。 请在阿里云控制台中的[AccessKey管理页面](https://usercenter.console.aliyun.com/?spm=a2c4g.11186623.0.0.12321153zTjLcm#/manage/ak) 上创建和查看您的AccessKey。
+在开始之前，您还需要一个阿里云账号和访问密钥（AccessKey）。 请在阿里云控制台中的 [AccessKey 管理页面](https://usercenter.console.aliyun.com/?spm=a2c4g.11186623.0.0.12321153zTjLcm#/manage/ak) 上创建和查看您的 AccessKey。
 
 本节用到的阿里云资源在 Konfig 中的 `base.pkg.kusion_models.clouds.alicloud` 包定义（还在开发中，查看 [代码](https://github.com/KusionStack/konfig/tree/dev/yuanyi/add_aliyun_and_aws/base/pkg/kusion_models/clouds/alicloud)）。
 
@@ -20,7 +20,7 @@ https://help.aliyun.com/document_detail/95829.html
 
 ## 6.1.2 生成专有网络
 
-专有网络VPC（Virtual Private Cloud）是用户基于阿里云创建的自定义私有网络, 不同的专有网络之间二层逻辑隔离，用户可以在自己创建的专有网络内创建和管理云产品实例，比如ECS、SLB、RDS等。详细专有网络 VPC 创建信息查看 [阿里云VPC文档](https://help.aliyun.com/document_detail/65398.html#section-znz-rbv-vrx) 。
+专有网络 VPC（Virtual Private Cloud）是用户基于阿里云创建的自定义私有网络, 不同的专有网络之间二层逻辑隔离，用户可以在自己创建的专有网络内创建和管理云产品实例，比如 ECS、SLB、RDS 等。详细专有网络 VPC 创建信息查看 [阿里云 VPC 文档](https://help.aliyun.com/document_detail/65398.html#section-znz-rbv-vrx) 。
 
 专有网络对应 `base.pkg.kusion_models.clouds.alicloud` 包定义的 `AlicloudVPC` 模型（TODO：参考链接）：
 
@@ -31,7 +31,7 @@ schema AlicloudVPC:
     ...
 ```
 
-目前只使用到 `name` 名称字段和 `cidr_block` IPv4网段字段。然后初始化一个名称为`alicloud_vpc`，子网地址为`172.16.0.0/16` 的专有网络。
+目前只使用到 `name` 名称字段和 `cidr_block` IPv4 网段字段。然后初始化一个名称为 `alicloud_vpc`，子网地址为 `172.16.0.0/16` 的专有网络。
 
 专业网络配置参数初始化代码如下：
 
@@ -62,7 +62,7 @@ vpc = provider.Provider {
 
 ## 6.1.3 生成交换机（VSwitch）
 
-交换机（vSwitch）是组成专有网络的基础网络模块，用来连接不同的云资源。成功创建交换机后，您可以在交换机中创建云资源、绑定自定义路由表或者绑定网络ACL。详细交换机使用信息查看 [阿里云使用交换机文档](https://help.aliyun.com/document_detail/65387.html#section-ts9-t3s-8vw) 。
+交换机（vSwitch）是组成专有网络的基础网络模块，用来连接不同的云资源。成功创建交换机后，您可以在交换机中创建云资源、绑定自定义路由表或者绑定网络 ACL。详细交换机使用信息查看 [阿里云使用交换机文档](https://help.aliyun.com/document_detail/65387.html#section-ts9-t3s-8vw) 。
 
 交换机对应 `base.pkg.kusion_models.clouds.alicloud` 包定义的 `AlicloudVswitch` 模型（TODO：参考链接）：
 
@@ -76,7 +76,7 @@ schema AlicloudVswitch:
     ...
 ```
 
-目前需要的字段有 `vpc_id` 对应的专有网络、`name` 名称字段和 `availability_zone` 可用区、`cidr_block` IPv4网段
+目前需要的字段有 `vpc_id` 对应的专有网络、`name` 名称字段和 `availability_zone` 可用区、`cidr_block` IPv4 网段
 
 初始化交换机配置参数如下：
 
@@ -114,7 +114,7 @@ vswitch = provider.Provider {
 
 ## 6.1.4 生成安全组（SecurityGroup）
 
-安全组是ECS实例的虚拟防火墙，用于设置单个或多个ECS实例的网络访问控制，每台ECS实例至少需要属于一个安全组。详细安全组创建信息查看 [阿里云安全组创建文档](https://help.aliyun.com/document_detail/25468.html) 。
+安全组是 ECS 实例的虚拟防火墙，用于设置单个或多个 ECS 实例的网络访问控制，每台 ECS 实例至少需要属于一个安全组。详细安全组创建信息查看 [阿里云安全组创建文档](https://help.aliyun.com/document_detail/25468.html) 。
 
 交换机对应 `base.pkg.kusion_models.clouds.alicloud` 包定义的 `AlicloudSecurityGroup` 模型（TODO：参考链接）：
 
@@ -165,7 +165,7 @@ security_group = provider.Provider {
 
 ## 6.1.5 生成 ECS 实例
 
-云服务器ECS（Elastic Compute Service）是阿里云提供的性能卓越、稳定可靠、弹性扩展的IaaS（Infrastructure as a Service）级别云计算服务。详细云服务器信息查看 [阿里云实例创建](https://help.aliyun.com/document_detail/87190.html) 。
+云服务器 ECS（Elastic Compute Service）是阿里云提供的性能卓越、稳定可靠、弹性扩展的 IaaS（Infrastructure as a Service）级别云计算服务。详细云服务器信息查看 [阿里云实例创建](https://help.aliyun.com/document_detail/87190.html) 。
 
 交换机对应 `base.pkg.kusion_models.clouds.alicloud` 包定义的 `AlicloudInstance` 模型（TODO：参考链接）：
 
@@ -232,4 +232,4 @@ instance = provider.Provider {
 
 ![](../images/ch6.1-alicloud_instance_apply_console.png)
 
-然后运行 `ssh root@<publicip>`，并输入密码来访问ECS实例。
+然后运行 `ssh root@<publicip>`，并输入密码来访问 ECS 实例。

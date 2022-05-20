@@ -6,7 +6,6 @@
 
 我们将展示以下内容：初始化配置代码、使能监控配置和查看监控面板。在开始前需要安装 KusionCtl、Minikube 和 [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)。
 
-
 ## 4.2.2 初始化配置代码
 
 通过 kusion 命令行工具初始化代码：

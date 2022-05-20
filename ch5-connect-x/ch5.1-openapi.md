@@ -12,9 +12,9 @@
 
 ## 5.1.2 KCL OpenAPI 支持
 
-KCLOpenAPI 工具支持从 OpenAPI/CRD 定义提取并生成 KCL schema. 在[KCLOpenapi Spec](https://kusionstack.io/docs/reference/cli/openapi/spec)中明确定义了 OpenAPI 规范与 KCL 语言之间的映射关系。
+KCLOpenAPI 工具支持从 OpenAPI/CRD 定义提取并生成 KCL schema. 在 [KCLOpenapi Spec](https://kusionstack.io/docs/reference/cli/openapi/spec) 中明确定义了 OpenAPI 规范与 KCL 语言之间的映射关系。
 
-[安装 Kusion 工具包](https://kusionstack.io/docs/user_docs/getting-started/install)的同时会默认安装 KCLOpenapi 工具，KCLOpenapi 工具的使用和示例可参见[KCLOpenAPI 工具](https://kusionstack.io/docs/reference/cli/openapi)
+[安装 Kusion 工具包](https://kusionstack.io/docs/user_docs/getting-started/install)的同时会默认安装 KCLOpenapi 工具，KCLOpenapi 工具的使用和示例可参见 [KCLOpenAPI 工具](https://kusionstack.io/docs/reference/cli/openapi)
 
 ## 5.1.3 从 Kubernetes 模型迁移到 Kusion
 
@@ -70,7 +70,7 @@ Kubernetes 内置模型的完整 OpenAPI 定义存放在 [Kubernetes openapi-spe
 }
 ```
 
-将以上述 spec 保存为 deployment.json，执行 ```kclopenapi generate model -f deployment.json```，将在当前工作空间生成所有相关的 KCL schema 文件。在 Konfig 的 base/pkg/kusion_kubernetes 目录中，我们已经保存了一份由此生成的 [KCL 文件](https://github.com/KusionStack/konfig/blob/master/base/pkg/kusion_kubernetes/api/apps/v1/deployment.k)，并生成了对应的模型文档。
+将以上述 spec 保存为 deployment.json，执行 ``kclopenapi generate model -f deployment.json``，将在当前工作空间生成所有相关的 KCL schema 文件。在 Konfig 的 base/pkg/kusion_kubernetes 目录中，我们已经保存了一份由此生成的 [KCL 文件](https://github.com/KusionStack/konfig/blob/master/base/pkg/kusion_kubernetes/api/apps/v1/deployment.k)，并生成了对应的模型文档。
 
 <!-- TODO: 模型文档加链接 -->
 
@@ -78,35 +78,33 @@ Kubernetes 内置模型的完整 OpenAPI 定义存放在 [Kubernetes openapi-spe
 
 * 使用生成的模型，直接声明 KCL 配置
 
-    我们可以在 KCL 配置中直接实例化生成的 Deployment，得到一份部署声明，如下：
+  我们可以在 KCL 配置中直接实例化生成的 Deployment，得到一份部署声明，如下：
 
-    ```python
-    import kusion_kubernetes.api.apps.v1
+  ```python
+  import kusion_kubernetes.api.apps.v1
 
-    frontend = v1.Deployment {
-        metadata.name: "frontend"
-        spec.selector.matchLabels: {app: guestbook, tier: frontend}
-        replicas: 3
-        template.metadata.labels: {app: guestbook, tier: frontend}
-        spec.containers: [
-            {
-                name: php-redis
-                image: gcr.io/google-samples/gb-frontend:v4
-                resources.requests: { cpu: "100m", memory: "100Mi"}
-            }
-            env: [{name: GET_HOSTS_FROM, value: dns}]
-            ports: [{containerPort: 80}]
-        ]
-    }
-    ```
+  frontend = v1.Deployment {
+      metadata.name: "frontend"
+      spec.selector.matchLabels: {app: guestbook, tier: frontend}
+      replicas: 3
+      template.metadata.labels: {app: guestbook, tier: frontend}
+      spec.containers: [
+          {
+              name: php-redis
+              image: gcr.io/google-samples/gb-frontend:v4
+              resources.requests: { cpu: "100m", memory: "100Mi"}
+          }
+          env: [{name: GET_HOSTS_FROM, value: dns}]
+          ports: [{containerPort: 80}]
+      ]
+  }
+  ```
 
-    在 Konfig 仓库中增加以上配置声明，经过的编译后，其结果等价于 [Kubernetes examples guestbook-frontend](https://github.com/kubernetes/examples/blob/master/guestbook/frontend-deployment.yaml)，关于 Konfig 仓库及编译命令可参考 [Konfig 模型库快速开始](https://kusionstack.io/docs/reference/model/model-quick-start)。
-
+  在 Konfig 仓库中增加以上配置声明，经过的编译后，其结果等价于 [Kubernetes examples guestbook-frontend](https://github.com/kubernetes/examples/blob/master/guestbook/frontend-deployment.yaml)，关于 Konfig 仓库及编译命令可参考 [Konfig 模型库快速开始](https://kusionstack.io/docs/reference/model/model-quick-start)。
 * 最佳实践：对 Kubernetes 模型进一步抽象，定义用户友好的界面
 
-    由于 Kubernetes 内置模型较为原子化和复杂，我们推荐以 Kubernetes 原生模型作为后端输出的模型，而向用户暴露一份更为友好和简单的前端模型界面。在 Konfig 的 kusion_models 目录中已经保存了一份经过良好抽象的模型 —— Server 模型，点此查看 [Server Schema](https://github.com/KusionStack/konfig/blob/master/base/pkg/kusion_models/kube/frontend/server.k)
+  由于 Kubernetes 内置模型较为原子化和复杂，我们推荐以 Kubernetes 原生模型作为后端输出的模型，而向用户暴露一份更为友好和简单的前端模型界面。在 Konfig 的 kusion_models 目录中已经保存了一份经过良好抽象的模型 —— Server 模型，点此查看 [Server Schema](https://github.com/KusionStack/konfig/blob/master/base/pkg/kusion_models/kube/frontend/server.k)
 
 ## 5.1.4 从 Kubernetes CRD 迁移到 Kusion
 
 如果您的项目中使用了 CRD，也可以采用类似的模式，生成 CRD 对应的 KCL schema，并基于该 schema 声明 CR。使用 `kclopenapi generate model --crd --skip-validation -f your_crd.yaml` 命令从 CRD 生成 KCL Schema。或者使用 KCL 声明 CR 的模式与声明 Kubernetes 内置模型配置的模式相同，在此不做赘述。
-
