@@ -4,6 +4,8 @@
 
 ![](./images/logo/kusionstack-color2.png)
 
+- KusionStack 主页: [https://kusionstack.io/](https://kusionstack.io/)
+- 在线阅读: [https://kusionstack.io/kusion-in-action-book](https://kusionstack.io/kusion-in-action-book)
 - 仓库地址: [https://github.com/KusionStack/kusion-in-action-book](https://github.com/KusionStack/kusion-in-action-book)
 
 ---
