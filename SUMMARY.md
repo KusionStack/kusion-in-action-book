@@ -1,6 +1,6 @@
 # Summary
 
-[Kusion 实战](book.md)
+[封面](book.md)
 [前言](preface.md)
 
 - [简介](ch1-intro/readme.md)
