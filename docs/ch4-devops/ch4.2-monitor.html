@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>为应用配置监控 - KusionStack 实战</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="如何用 KusionStack 部署运维 Kubernetes 应用">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../book.html">封面</a></li><li class="chapter-item expanded affix "><a href="../preface.html">前言</a></li><li class="chapter-item expanded "><a href="../ch1-intro/index.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch1-intro/ch1.1-backend.html"><strong aria-hidden="true">1.1.</strong> 背景</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.2-kcl.html"><strong aria-hidden="true">1.2.</strong> KCL 语言</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.3-konfig.html"><strong aria-hidden="true">1.3.</strong> Konfig 模型库</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.4-kusion.html"><strong aria-hidden="true">1.4.</strong> Kusion 用户界面</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.5-ide.html"><strong aria-hidden="true">1.5.</strong> IDE 插件</a></li></ol></li><li class="chapter-item expanded "><a href="../ch2-hello-kusion/index.html"><strong aria-hidden="true">2.</strong> 你好 Kusion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch2-hello-kusion/ch2.1-init.html"><strong aria-hidden="true">2.1.</strong> 初始化工程</a></li><li class="chapter-item expanded "><a href="../ch2-hello-kusion/ch2.2-apply.html"><strong aria-hidden="true">2.2.</strong> Apply 子命令</a></li></ol></li><li class="chapter-item expanded "><a href="../ch3-internal/index.html"><strong aria-hidden="true">3.</strong> Kusion 核心概念</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch3-internal/ch3.1-arch.html"><strong aria-hidden="true">3.1.</strong> 整体架构</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.2-project-stack.html"><strong aria-hidden="true">3.2.</strong> Project &amp; Stack</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.3-state-backends.html"><strong aria-hidden="true">3.3.</strong> State &amp; Backends</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.4-connect-x.html"><strong aria-hidden="true">3.4.</strong> 和上游下游的关系</a></li></ol></li><li class="chapter-item expanded "><a href="../ch4-devops/index.html"><strong aria-hidden="true">4.</strong> 场景: 日常运维</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch4-devops/ch4.1-deploy.html"><strong aria-hidden="true">4.1.</strong> 部署 Deployment</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.2-monitor.html" class="active"><strong aria-hidden="true">4.2.</strong> 为应用配置监控</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.3-expand-resource-cap.html"><strong aria-hidden="true">4.3.</strong> 扩展应用资源容量</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.4-app-image-upgrade.html"><strong aria-hidden="true">4.4.</strong> 镜像升级</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.5-ext.html"><strong aria-hidden="true">4.5.</strong> 补充说明</a></li></ol></li><li class="chapter-item expanded "><a href="../ch5-connect-x/index.html"><strong aria-hidden="true">5.</strong> 场景: 对接社区生态</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch5-connect-x/ch5.1-openapi.html"><strong aria-hidden="true">5.1.</strong> OpenAPI</a></li><li class="chapter-item expanded "><a href="../ch5-connect-x/ch5.2-terraform.html"><strong aria-hidden="true">5.2.</strong> Terraform</a></li></ol></li><li class="chapter-item expanded "><a href="../ch6-multi-cloud/index.html"><strong aria-hidden="true">6.</strong> 多平台: 对接阿里云生态</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch6-multi-cloud/ch6.1-ecs.html"><strong aria-hidden="true">6.1.</strong> ECS 云主机</a></li><li class="chapter-item expanded "><a href="../ch6-multi-cloud/ch6.2-slb.html"><strong aria-hidden="true">6.2.</strong> SLB 负载均衡</a></li></ol></li><li class="chapter-item expanded "><a href="../ch7-opensource/index.html"><strong aria-hidden="true">7.</strong> 开源社区</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.1-support.html"><strong aria-hidden="true">7.1.</strong> 寻求帮助</a></li><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.2-contribute-docs.html"><strong aria-hidden="true">7.2.</strong> 贡献文档</a></li><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.3-contribute-code.html"><strong aria-hidden="true">7.3.</strong> 贡献代码</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">8.</strong> 附录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/a-faq.html"><strong aria-hidden="true">8.1.</strong> 附录 A: FAQ</a></li><li class="chapter-item expanded "><a href="../appendix/b-kcl.html"><strong aria-hidden="true">8.2.</strong> 附录 B: KCL 语法</a></li><li class="chapter-item expanded "><a href="../appendix/c-ref.html"><strong aria-hidden="true">8.3.</strong> 附录 C: 链接</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">KusionStack 实战</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/KusionStack/kusion-in-action-book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/KusionStack/kusion-in-action-book/blob/master/./ch4-devops/ch4.2-monitor.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="42-为应用配置监控"><a class="header" href="#42-为应用配置监控">4.2 为应用配置监控</a></h1>
+<p>本节展示如何为应用配置监控，通过 Prometheus 查看应用状态。</p>
+<h2 id="421-准备工作"><a class="header" href="#421-准备工作">4.2.1 准备工作</a></h2>
+<p>我们将展示以下内容：初始化配置代码、使能监控配置和查看监控面板。在开始前需要安装 KusionCtl、Minikube 和 <a href="https://github.com/prometheus-operator/kube-prometheus">kube-prometheus</a>。</p>
+<h2 id="422-初始化配置代码"><a class="header" href="#422-初始化配置代码">4.2.2 初始化配置代码</a></h2>
+<p>通过 kusion 命令行工具初始化代码：</p>
+<pre><code>$ kusion init
+✔ Server
+project name: prometheus-example-app
+stack name: prod
+cluster name: default
+image: quay.io/brancz/prometheus-example-app:v0.3.0
+</code></pre>
+<p>其中 <code>quay.io/brancz/prometheus-example-app:v0.3.0</code> 镜像对应的应用代码可参考：<a href="https://github.com/brancz/prometheus-example-app">https://github.com/brancz/prometheus-example-app</a>。</p>
+<p>这个应用程序是一个示例，说明如何使用 Prometheus 指标轻松监测 HTTP 处理程序，它使用 Prometheus go 客户端监听本地 <code>8080</code> 端口创建一个新的 Prometheus 注册表。</p>
+<p>具体的监控指标如下：</p>
+<ul>
+<li>任何对 <code>/</code> 的请求都会产生一个 <code>200</code> 响应码，这会增加此响应代码的计数器指标</li>
+<li>任何对 <code>/err</code> 的请求都将产生一个 <code>404</code> 响应代码，会增加相应计数器的指标</li>
+</ul>
+<h2 id="423-使能配置"><a class="header" href="#423-使能配置">4.2.3 使能配置</a></h2>
+<p>通过将 <code>enableMonitoring</code> 设置为 <code>True</code> 使能配置，并添加主容器端口号配置 <code>8080</code>。代码如下：</p>
+<pre><code class="language-py">import base.pkg.kusion_models.kube.frontend
+import base.pkg.kusion_models.kube.frontend.container
+import base.pkg.kusion_models.kube.frontend.container.env as e
+import base.pkg.kusion_models.kube.frontend.container.port as cp
+import base.pkg.kusion_models.kube.frontend.container.probe as p
+
+# The application configuration in stack will overwrite 
+# the configuration with the same attribute in base.
+appConfiguration: frontend.Server {
+    # Main container configuration
+    mainContainer: container.Main {
+        name = &quot;prometheus-example-app&quot;
+        ports = [
+            cp.ContainerPort {
+                name = &quot;web&quot;
+                containerPort = 8080
+            }
+        ]
+    }
+    enableMonitoring = True
+}
+</code></pre>
+<p>配置 web 服务端口号。</p>
+<h2 id="424-查看监控面板"><a class="header" href="#424-查看监控面板">4.2.4 查看监控面板</a></h2>
+<p>通过 <code>kusion apply</code> 命令部署配置:</p>
+<pre><code> SUCCESS  Compiling in stack prod...                                                                                                  
+
+Stack: prod    Provider                                 Type                           Name    Plan
+       * ├─  kubernetes                         v1:Namespace      prometheus-example-app[0]  Create
+       * ├─  kubernetes  monitoring.coreos.com/v1:PodMonitor  prometheus-example-appprod[0]  Create
+       * └─  kubernetes                   apps/v1:Deployment  prometheus-example-appprod[0]  Create
+</code></pre>
+<p>可以看到，除了部署 kubernetes <code>Deployment</code> 和 <code>Namespace</code> 资源外，还额外部署了 <code>PodMonitor</code> 资源用于配置 Prometheus 监听应用 Pod，当资源都创建完成时，可以通过如下命令查看 Prometheus 监控面板。</p>
+<pre><code>kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090
+</code></pre>
+<p>最后通过 http://localhost:9090 访问监控面板并查看应用程序的监控指标。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../ch4-devops/ch4.1-deploy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../ch4-devops/ch4.3-expand-resource-cap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../ch4-devops/ch4.1-deploy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../ch4-devops/ch4.3-expand-resource-cap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

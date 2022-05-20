@@ -1,0 +1,1906 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>附录 B: KCL 语法 - KusionStack 实战</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="如何用 KusionStack 部署运维 Kubernetes 应用">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../book.html">封面</a></li><li class="chapter-item expanded affix "><a href="../preface.html">前言</a></li><li class="chapter-item expanded "><a href="../ch1-intro/index.html"><strong aria-hidden="true">1.</strong> 简介</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch1-intro/ch1.1-backend.html"><strong aria-hidden="true">1.1.</strong> 背景</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.2-kcl.html"><strong aria-hidden="true">1.2.</strong> KCL 语言</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.3-konfig.html"><strong aria-hidden="true">1.3.</strong> Konfig 模型库</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.4-kusion.html"><strong aria-hidden="true">1.4.</strong> Kusion 用户界面</a></li><li class="chapter-item expanded "><a href="../ch1-intro/ch1.5-ide.html"><strong aria-hidden="true">1.5.</strong> IDE 插件</a></li></ol></li><li class="chapter-item expanded "><a href="../ch2-hello-kusion/index.html"><strong aria-hidden="true">2.</strong> 你好 Kusion</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch2-hello-kusion/ch2.1-init.html"><strong aria-hidden="true">2.1.</strong> 初始化工程</a></li><li class="chapter-item expanded "><a href="../ch2-hello-kusion/ch2.2-apply.html"><strong aria-hidden="true">2.2.</strong> Apply 子命令</a></li></ol></li><li class="chapter-item expanded "><a href="../ch3-internal/index.html"><strong aria-hidden="true">3.</strong> Kusion 核心概念</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch3-internal/ch3.1-arch.html"><strong aria-hidden="true">3.1.</strong> 整体架构</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.2-project-stack.html"><strong aria-hidden="true">3.2.</strong> Project &amp; Stack</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.3-state-backends.html"><strong aria-hidden="true">3.3.</strong> State &amp; Backends</a></li><li class="chapter-item expanded "><a href="../ch3-internal/ch3.4-connect-x.html"><strong aria-hidden="true">3.4.</strong> 和上游下游的关系</a></li></ol></li><li class="chapter-item expanded "><a href="../ch4-devops/index.html"><strong aria-hidden="true">4.</strong> 场景: 日常运维</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch4-devops/ch4.1-deploy.html"><strong aria-hidden="true">4.1.</strong> 部署 Deployment</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.2-monitor.html"><strong aria-hidden="true">4.2.</strong> 为应用配置监控</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.3-expand-resource-cap.html"><strong aria-hidden="true">4.3.</strong> 扩展应用资源容量</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.4-app-image-upgrade.html"><strong aria-hidden="true">4.4.</strong> 镜像升级</a></li><li class="chapter-item expanded "><a href="../ch4-devops/ch4.5-ext.html"><strong aria-hidden="true">4.5.</strong> 补充说明</a></li></ol></li><li class="chapter-item expanded "><a href="../ch5-connect-x/index.html"><strong aria-hidden="true">5.</strong> 场景: 对接社区生态</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch5-connect-x/ch5.1-openapi.html"><strong aria-hidden="true">5.1.</strong> OpenAPI</a></li><li class="chapter-item expanded "><a href="../ch5-connect-x/ch5.2-terraform.html"><strong aria-hidden="true">5.2.</strong> Terraform</a></li></ol></li><li class="chapter-item expanded "><a href="../ch6-multi-cloud/index.html"><strong aria-hidden="true">6.</strong> 多平台: 对接阿里云生态</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch6-multi-cloud/ch6.1-ecs.html"><strong aria-hidden="true">6.1.</strong> ECS 云主机</a></li><li class="chapter-item expanded "><a href="../ch6-multi-cloud/ch6.2-slb.html"><strong aria-hidden="true">6.2.</strong> SLB 负载均衡</a></li></ol></li><li class="chapter-item expanded "><a href="../ch7-opensource/index.html"><strong aria-hidden="true">7.</strong> 开源社区</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.1-support.html"><strong aria-hidden="true">7.1.</strong> 寻求帮助</a></li><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.2-contribute-docs.html"><strong aria-hidden="true">7.2.</strong> 贡献文档</a></li><li class="chapter-item expanded "><a href="../ch7-opensource/ch7.3-contribute-code.html"><strong aria-hidden="true">7.3.</strong> 贡献代码</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">8.</strong> 附录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/a-faq.html"><strong aria-hidden="true">8.1.</strong> 附录 A: FAQ</a></li><li class="chapter-item expanded "><a href="../appendix/b-kcl.html" class="active"><strong aria-hidden="true">8.2.</strong> 附录 B: KCL 语法</a></li><li class="chapter-item expanded "><a href="../appendix/c-ref.html"><strong aria-hidden="true">8.3.</strong> 附录 C: 链接</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">KusionStack 实战</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/KusionStack/kusion-in-action-book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/KusionStack/kusion-in-action-book/blob/master/./appendix/b-kcl.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="附录-b-kcl-语法"><a class="header" href="#附录-b-kcl-语法">附录 B: KCL 语法</a></h1>
+<h2 id="b1-如何用-kcl-写一个简单的-key-value-对配置"><a class="header" href="#b1-如何用-kcl-写一个简单的-key-value-对配置">B.1. 如何用 KCL 写一个简单的 key-value 对配置</a></h2>
+<p>创建一个名为 <code>config.k</code> 的文件</p>
+<pre><code class="language-python">cpu = 256
+memory = 512
+image = &quot;nginx:1.14.2&quot;
+service = &quot;my-service&quot;
+</code></pre>
+<p>上述 KCL 代码中，定义了 4 个变量 <code>cpu</code> 和 <code>memory</code> 被声明为整数类型，并且它们的值为 <code>256</code> 和 <code>512</code>，而 <code>image</code> 和 <code>service</code> 是字符串类型，它们的值为 <code>image</code> 和 <code>service</code></p>
+<p>使用如下命令可以将上述 KCL 文件编译为 YAML 进行输出</p>
+<pre><code>kcl config.k
+</code></pre>
+<p>得到的 YAML 输出为:</p>
+<pre><code class="language-yaml">cpu: 256
+memory: 512
+image: nginx:1.14.2
+service: my-service
+</code></pre>
+<p>如果想要输出到文件，可以使用 <code>-o|--output</code> 参数:</p>
+<pre><code>kcl config.k -o config.yaml
+</code></pre>
+<h2 id="b2-kcl-中有哪些基本的数据类型"><a class="header" href="#b2-kcl-中有哪些基本的数据类型">B.2. KCL 中有哪些基本的数据类型？</a></h2>
+<p>KCL 目前的基本数值类型和值包含:</p>
+<ul>
+<li>整数类型 <code>int</code>
+<ul>
+<li>举例: 十进制正整数 <code>1</code>, 十进制负整数 <code>-1</code>, 十六进制整数 <code>0x10</code>, 八进制整数 <code>0o10</code>, 二进制整数 <code>0b10</code></li>
+</ul>
+</li>
+<li>浮点数类型 <code>float</code>
+<ul>
+<li>举例: 正浮点数 <code>1.10</code>, <code>1.0</code>, 负浮点数 <code>-35.59</code>, <code>-90.</code>, 科学记数法浮点数 <code>32.3e+18</code>, <code>70.2E-12</code></li>
+</ul>
+</li>
+<li>布尔类型 <code>bool</code>
+<ul>
+<li>举例: 真值 <code>True</code>, 假值 <code>False</code></li>
+</ul>
+</li>
+<li>字符串类型 <code>str</code> - 使用引号 <code>'</code>, <code>&quot;</code> 标记
+<ul>
+<li>举例: 双引号字符串 <code>&quot;string&quot;</code>, <code>&quot;&quot;&quot;string&quot;&quot;&quot;</code>, 单引号字符串 <code>'string'</code>, <code>'''string'''</code></li>
+</ul>
+</li>
+<li>列表类型 <code>list</code> - 使用 <code>[</code>, <code>]</code> 标记
+<ul>
+<li>举例: 空列表 <code>[]</code>, 字符串列表 <code>[&quot;string1&quot;, &quot;string2&quot;, &quot;string3&quot;]</code></li>
+</ul>
+</li>
+<li>字典类型 <code>dict</code> - 使用 <code>{</code>, <code>}</code> 标记
+<ul>
+<li>举例: 空字典 <code>{}</code>, 键值均为字符串类型的字典 <code>{&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}</code></li>
+</ul>
+</li>
+<li>结构类型 <code>schema</code> - 使用关键字 <code>schema</code> 定义，并使用相应的 schema 名称进行实例化</li>
+<li>空值类型 <code>None</code> - 用于表示一个变量的值为空，与输出 YAML 的 <code>null</code> 值对应</li>
+<li>未定义值类型 <code>Undefined</code> - 用于表示一个变量未被赋值，值为 <code>Undefined</code> 的变量不会被输出到 YAML 中</li>
+</ul>
+<pre><code class="language-python">schema Person:
+    name: str
+    age: int
+
+alice = Person {
+    name = &quot;Alice&quot;
+    age = 18
+}
+bob = Person {
+    name = &quot;Bob&quot;
+    age = 10
+}
+</code></pre>
+<p>注意: 所有 KCL 类型的变量均可赋值为空值 <code>None</code> 和未定义的值 <code>Undefined</code></p>
+<h2 id="b3-有些-kcl-变量名带-_-下划线前缀表示什么和不带-_-下划线前缀的区别是什么分别适合什么场景下使用"><a class="header" href="#b3-有些-kcl-变量名带-_-下划线前缀表示什么和不带-_-下划线前缀的区别是什么分别适合什么场景下使用">B.3. 有些 KCL 变量名带 <code>_</code> 下划线前缀表示什么？和不带 <code>_</code> 下划线前缀的区别是什么？分别适合什么场景下使用？</a></h2>
+<p>KCL 中带下划线前缀的变量表示一个<strong>隐藏</strong>的，<strong>可变</strong>的变量，<strong>隐藏</strong>表示带下划线前缀的变量不会被输出到 YAML 当中，包括包级别的下划线前缀变量和 schema 当中的下划线前缀变量。<strong>可变</strong>表示带下划线前缀的变量可被多次重复赋值，不带下划线前缀的变量被赋值后不可变。</p>
+<p>带 <code>_</code> 下划线前缀的变量与不带 <code>_</code> 下划线前缀变量的区别是: 不带 <code>_</code> 下划线前缀变量默认是导出到 YAML 当中的，并且具有强不可变性；带 <code>_</code> 下划线前缀变量是不导出的，可变的。</p>
+<pre><code class="language-python">name = 'Foo' # 导出变量，不可变变量
+name = 'Bar' # 错误：导出变量只能设置一次
+</code></pre>
+<pre><code class="language-python">_name = 'Foo' # 隐藏变量，可变变量
+_name = 'Bar'
+
+schema Person:
+    _name: str # hidden and mutable
+</code></pre>
+<h2 id="b4-如何向-dict-中添加元素"><a class="header" href="#b4-如何向-dict-中添加元素">B.4. 如何向 dict 中添加元素？</a></h2>
+<p>可以使用 union 运算符 <code>|</code>, 或者 dict 解包运算符 <code>**</code> 来向 dict 中添加一个元素，并且可以使用 <code>in</code>,<code>not in</code> 等关键字判断 dict 变量当中是否包含某一个键值</p>
+<pre><code class="language-python">_left = {key = {key1 = &quot;value1&quot;}, intKey = 1}  # 注意使用 = 表示覆盖
+_right = {key = {key2 = &quot;value2&quot;}, intKey = 2}
+dataUnion = _left | _right  # {&quot;key&quot;: {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}, &quot;intKey&quot;: 2}
+dataUnpack = {**_left, **_right}  # {&quot;key&quot;: {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}, &quot;intKey&quot;: 2}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">dataUnion:
+  key:
+    key1: value1
+    key2: value2
+dataUnpack:
+  key:
+    key2: value2
+</code></pre>
+<p>此外还可以使用 <code>字符串插值</code> 或者字符串 <code>format</code> 成员函数特性向 kcl dict 添加变量键值对</p>
+<pre><code class="language-python">dictKey1 = &quot;key1&quot;
+dictKey2 = &quot;key2&quot;
+data = {
+    &quot;${dictKey1}&quot; = &quot;value1&quot;
+    &quot;{}&quot;.format(dictKey2) = &quot;value2&quot;
+}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">dictKey1: key1
+dictKey2: key2
+data:
+  key1: value1
+  key2: value2
+</code></pre>
+<h2 id="b5-如何修改-dict-中的元素"><a class="header" href="#b5-如何修改-dict-中的元素">B.5. 如何修改 dict 中的元素？</a></h2>
+<p>与问题<a href="#3-%E5%A6%82%E4%BD%95%E5%90%91-dict-%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0">如何向 dict 中添加元素？</a>类似，可以使用 union 运算符 <code>|</code>, 或者解包运算符 <code>**</code> 修改 dict 当中的元素</p>
+<pre><code class="language-python">_data = {key = &quot;value&quot;}  # {&quot;key&quot;: &quot;value&quot;}
+_data = _data | {key = &quot;override_value1&quot;}  # {&quot;key&quot;: &quot;override_value1&quot;}
+_data = {**_data, **{key = &quot;override_value2&quot;}}  # {&quot;key&quot;: &quot;override_value2&quot;}
+</code></pre>
+<p>如果想要删除 dict 中某个键为 <code>key</code> 的值，可以使用解包运算符 <code>**{key = Undefined}</code> 或者合并运算符 <code>| {key = Undefined}</code> 进行覆盖，覆盖后 key 的值为 Undefined，不会进行 YAML 输出。</p>
+<h2 id="b6-如何向-list-中添加元素"><a class="header" href="#b6-如何向-list-中添加元素">B.6. 如何向 list 中添加元素？</a></h2>
+<p>在 list 中添加元素有两种方式：</p>
+<ul>
+<li>使用 <code>+</code>, <code>+=</code> 和 slice 切片连接组装 list 变量达到向 list 中添加元素的目的</li>
+</ul>
+<pre><code class="language-python">_args = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+_args += [&quot;end&quot;]  # 在list尾部添加元素&quot;end&quot;, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;end&quot;]
+_args = _args[:2] + [&quot;x&quot;] + _args[2:]  # 在list索引为2的地方插入元素&quot;x&quot;, [&quot;a&quot;, &quot;b&quot;, &quot;x&quot;, &quot;c&quot;, &quot;end&quot;]
+_args = [&quot;start&quot;] + _args  # 在list头部添加元素&quot;start&quot;, [&quot;start&quot;, &quot;a&quot;, &quot;b&quot;, &quot;x&quot;, &quot;c&quot;, &quot;end&quot;]
+</code></pre>
+<ul>
+<li>使用 <code>*</code> 解包运算符连接合并 list</li>
+</ul>
+<pre><code class="language-python">_args = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+_args = [*_args, &quot;end&quot;]  # 在list尾部添加元素&quot;end&quot;, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;end&quot;]
+_args = [&quot;start&quot;, *_args]  # 在list头部添加元素&quot;start&quot;, [&quot;start&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;end&quot;]
+</code></pre>
+<p>注意：当接连的变量为 <code>None/Undefined</code> 时，使用 <code>+</code> 可能会发生错误，这时使用 list 解包运算符 <code>*</code> 或者使用 <code>or</code> 运算符取 list 的默认值可以避免空值判断</p>
+<pre><code class="language-python">data1 = [1, 2, 3]
+data2 = None
+data3 = [*data1, *data2]  # Right [1, 2, 3]
+data4 = data1 + data2 or [] # Right [1, 2, 3], 使用 or 取 data2 的默认值为 []， 当 data2 为 None/Undefined 时，取空列表 [] 进行计算
+data5 = data1 + data2  # Error: can only concatenate list (not &quot;NoneType&quot;) to list
+</code></pre>
+<h2 id="b7-如何修改删除-list-中的元素"><a class="header" href="#b7-如何修改删除-list-中的元素">B.7. 如何修改/删除 list 中的元素？</a></h2>
+<p>修改 list 中的元素分为两种方式：</p>
+<ul>
+<li>直接修改 list 某个索引处的值，使用 slice 切片</li>
+</ul>
+<pre><code class="language-python">_index = 1
+_args = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+_args = _args[:index] + [&quot;x&quot;] + _args[index+1:]  # 修改list索引为1的元素为&quot;x&quot;, [&quot;a&quot;, &quot;x&quot;, &quot;c&quot;]
+</code></pre>
+<ul>
+<li>根据某个条件修改 list 当中的元素，使用 list comprehension 列表推导式</li>
+</ul>
+<pre><code class="language-python">_args = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+_args = [&quot;x&quot; if a == &quot;b&quot; else a for a in _args]  # 将list当中值为&quot;b&quot;的值都修改为&quot;x&quot;, [&quot;a&quot;, &quot;x&quot;, &quot;c&quot;]
+</code></pre>
+<p>删除 list 中的元素分为两种方式：</p>
+<ul>
+<li>使用 list for 推导表达式中 if 过滤条件</li>
+<li>使用 filter 表达式对 list 进行元素过滤</li>
+</ul>
+<p>比如想要删除一个列表 <code>[1, 2, 3, 4, 5]</code> 中大于 2 的数字，则在 KCL 中可以写为:</p>
+<pre><code class="language-python">originList = [1, 2, 3, 4, 5]
+oneWayDeleteListItem = [item for item in originList if item &lt;= 2]
+anotherWayDeleteListItem = filter item in originList {
+    item &lt;= 2
+}
+</code></pre>
+<p>输出如下结果</p>
+<pre><code class="language-yaml">originList:
+- 1
+- 2
+- 3
+- 4
+- 5
+oneWayDeleteListItem:
+- 1
+- 2
+anotherWayDeleteListItem:
+- 1
+- 2
+</code></pre>
+<h2 id="b8-怎样写-for-循环怎样理解和使用-list-comprehension-列表推导式-和-dict-comprehension-字典推导式-"><a class="header" href="#b8-怎样写-for-循环怎样理解和使用-list-comprehension-列表推导式-和-dict-comprehension-字典推导式-">B.8. 怎样写 for 循环？怎样理解和使用 list comprehension 列表推导式 和 dict comprehension 字典推导式 ？</a></h2>
+<p>KCL 目前仅支持函数式/声明式的推导式 for 循环方式，可以按照如下方式遍历 dict 和 list 变量:</p>
+<p>list 推导式具体形式为(其中推导式两边使用方括号 <code>[]</code>):</p>
+<pre><code class="language-txt">[expression for expr in sequence1
+            if condition1
+            for expr2 in sequence2
+            if condition2
+            for expr3 in sequence3 ...
+            if condition3
+            for exprN in sequenceN
+            if conditionN]
+</code></pre>
+<p>dict 推导式具体形式为(其中推导式两边使用花括号 <code>{}</code>):</p>
+<pre><code class="language-txt">{expression for expr in sequence1
+            if condition1
+            for expr2 in sequence2
+            if condition2
+            for expr3 in sequence3 ...
+            if condition3
+            for exprN in sequenceN
+            if conditionN}
+</code></pre>
+<p>上述推导式中的 <code>if</code> 表示过滤条件，满足条件的表达式 <code>expr</code> 才会生成到新的 list 或 dict 中</p>
+<p>list 推导式举例:</p>
+<pre><code class="language-python">_listData = [1, 2, 3, 4, 5, 6]
+_listData = [l * 2 for l in _listData]  # _listData中所有元素都乘以2，[2, 4, 6, 8, 10, 12]
+_listData = [l for l in _listData if l % 4 == 0]  # 筛选出_listData中可以被4整除的所有元素，[4, 8, 12]
+_listData = [l + 100 if l % 8 == 0 else l for l in _listData]  # 遍历_listData, 当其中的元素可以被8整除时，将该元素加100，否则保持不变, [4, 108, 12]
+</code></pre>
+<p>注意上述代码中第 3 行和第 4 行两个 <code>if</code> 的区别:</p>
+<ul>
+<li>第一个 <code>if</code> 表示 list 变量 <code>_listData</code> 本身的推导式过滤条件，后不能跟 <code>else</code>，满足该过滤条件的元素会继续放在该列表中，不满足条件的元素被剔除，有可能会使列表长度发生变化</li>
+<li>第二个 <code>if</code> 表示 list 迭代变量 <code>l</code> 的选择条件，表示 <code>if-else</code> 三元表达式，后必须跟 <code>else</code>，不论是否满足该条件，产生的元素仍然在该列表中，列表长度不变</li>
+</ul>
+<p>dict 推导式举例:</p>
+<pre><code class="language-python">_dictData = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;}
+_dictData = {k = _dictData[k] for k in _dictData if k == &quot;key1&quot; and _dictData[k] == &quot;value1&quot;}  # 将_dictData中key为&quot;key1&quot;, value为&quot;value1&quot;的元素筛选出来, {&quot;key1&quot;: &quot;value1&quot;}
+</code></pre>
+<p>使用推导式获得 dict 所有 key:</p>
+<pre><code class="language-python">dictData = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;}
+dictDataKeys = [k for k in _dictData]  # [&quot;key1&quot;, &quot;key2&quot;]
+</code></pre>
+<p>使用推导式对 dict 按照 key 的字典序升序进行排序:</p>
+<pre><code class="language-python">dictData = {key3 = &quot;value3&quot;, key2 = &quot;value2&quot;, key1 = &quot;value1&quot;}  # {'key3': 'value3', 'key2': 'value2', 'key1': 'value1'}
+dictSortedData = {k = dictData[k] for k in sorted(dictData)}  # {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
+</code></pre>
+<p>多级推导式举例:</p>
+<pre><code class="language-python">array1 = [1, 2, 3]
+array2 = [4, 5, 6]
+data = [a1 + a2 for a1 in array1 for a2 in array2]  # [5, 6, 7, 6, 7, 8, 7, 8, 9] len(data) == len(array1) * len(array2)
+</code></pre>
+<p>双变量循环(for 推导表达式支持 list 的索引迭代以及 dict 的 value 迭代，可以简化 list/dict 迭代过程代码书写):</p>
+<ul>
+<li>list</li>
+</ul>
+<pre><code class="language-python">data = [1000, 2000, 3000]
+# 单变量循环
+dataLoop1 = [i * 2 for i in data]  # [2000, 4000, 6000]
+dataLoop2 = [i for i in data if i == 2000]  # [2000]
+dataLoop3 = [i if i &gt; 2 else i + 1 for i in data]  # [1000, 2000, 3000]
+# 双变量循环
+dataLoop4 = [i + v for i, v in data]  # [1000, 2001, 3002]
+dataLoop5 = [v for i, v in data if v == 2000]  # [2000]
+# 使用_忽略循环变量
+dataLoop6 = [v if v &gt; 2000 else v + i for i, v in data]  # [1000, 2001, 3000]
+dataLoop7 = [i for i, _ in data]  # [0, 1, 2]
+dataLoop8 = [v for _, v in data if v == 2000]  # [2000]
+</code></pre>
+<ul>
+<li>dict</li>
+</ul>
+<pre><code class="language-python">data = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;}
+# 单变量循环
+dataKeys1 = [k for k in data]  # [&quot;key1&quot;, &quot;key2&quot;]
+dataValues1 = [data[k] for k in data]  # [&quot;value1&quot;, &quot;value2&quot;]
+# 双变量循环
+dataKeys2 = [k for k, v in data]  # [&quot;key1&quot;, &quot;key2&quot;]
+dataValues2 = [v for k, v in data]  # [&quot;value1&quot;, &quot;value2&quot;]
+dataFilter = {k = v for k, v in data if k == &quot;key1&quot; and v == &quot;value1&quot;}  # {&quot;key1&quot;: &quot;value1&quot;}
+# 使用_忽略循环变量
+dataKeys3 = [k for k, _ in data]  # [&quot;key1&quot;, &quot;key2&quot;]
+dataValues3 = [v for _, v in data]  # [&quot;value1&quot;, &quot;value2&quot;]
+</code></pre>
+<h2 id="b9-怎样写-if-条件语句"><a class="header" href="#b9-怎样写-if-条件语句">B.9. 怎样写 if 条件语句？</a></h2>
+<p>KCL 支持两种方式书写 if 条件语句:</p>
+<ul>
+<li>if-elif-else 块语句，其中 elif 和 else 块均可省略，并且 elif 块可以使用多次</li>
+</ul>
+<pre><code class="language-python">success = True
+_result = &quot;failed&quot;
+if success:
+    _result = &quot;success&quot;
+</code></pre>
+<pre><code class="language-python">success = True
+if success:
+    _result = &quot;success&quot;
+else:
+    _result = &quot;failed&quot;
+</code></pre>
+<pre><code class="language-python">_result = 0
+if condition == &quot;one&quot;:
+    _result = 1
+elif condition == &quot;two&quot;:
+    _result = 2
+elif condition == &quot;three&quot;:
+    _result = 3
+else:
+    _result = 4
+</code></pre>
+<ul>
+<li>条件表达式 <code>&lt;expr1&gt; if &lt;condition&gt; else &lt;expr2&gt;</code>, 类似于 C 语言当中的 <code>&lt;condition&gt; ? &lt;expr1&gt; : &lt;expr2&gt;</code> 三元表达式</li>
+</ul>
+<pre><code class="language-python">success = True
+_result = &quot;success&quot; if success else &quot;failed&quot;
+</code></pre>
+<p>注意：在书写 if-elif-else 块语句时注意书写 if 条件后的冒号 <code>:</code> 以及保持缩进的统一</p>
+<p>除此之外，还可以在 list 或者 dict 结构中直接书写条件表达式(不同的是，在结构中书写的 if 表达式中需要书写的值而不是语句):</p>
+<ul>
+<li>list</li>
+</ul>
+<pre><code class="language-python">env = &quot;prod&quot;
+data = [
+    &quot;env_value&quot;
+    &quot;:&quot;
+    if env == &quot;prod&quot;:
+        &quot;prod&quot;  # 书写需要添加到 data 中的值，而不是语句
+    else:
+        &quot;other_prod&quot;
+]  # [&quot;env_value&quot;, &quot;:&quot;, &quot;prod&quot;]
+</code></pre>
+<ul>
+<li>dict</li>
+</ul>
+<pre><code class="language-python">env = &quot;prod&quot;
+config = {
+    if env == &quot;prod&quot;:
+        MY_PROD_ENV = &quot;prod_value&quot; # 书写需要添加到 config 中的键-值对，而不是语句
+    else:
+        OTHER_ENV = &quot;other_value&quot;
+}  # {&quot;MY_PROD_ENV&quot;: &quot;prod_value&quot;}
+</code></pre>
+<h2 id="b10-怎样表达-与-或-非-等逻辑运算"><a class="header" href="#b10-怎样表达-与-或-非-等逻辑运算">B.10. 怎样表达 &quot;与&quot; &quot;或&quot; &quot;非&quot; 等逻辑运算？</a></h2>
+<p>在 KCL 中，使用 <code>and</code> 表示&quot;逻辑与&quot;, 使用 <code>or</code> 表示&quot;逻辑或&quot;, 使用 <code>not</code> 表示&quot;非&quot;, 与 C 语言当中的 <code>&amp;&amp;</code>, <code>||</code> 和 <code>~</code> 语义一致；</p>
+<pre><code class="language-python">done = True
+col == 0
+if done and (col == 0 or col == 3):
+    ok = 1
+</code></pre>
+<p>对于整数的&quot;按位与&quot;, &quot;按位或&quot;和&quot;按位异或&quot;，在 KCL 中使用 <code>&amp;</code>, <code>|</code> 和 <code>^</code> 运算符表示, 与 C 语言当中的 <code>&amp;</code>, <code>|</code> 和 <code>^</code> 语义一致；</p>
+<pre><code class="language-python">value = 0x22
+bitmask = 0x0f
+
+assert (value &amp; bitmask) == 0x02
+assert (value &amp; ~bitmask) == 0x20
+assert (value | bitmask) == 0x2f
+assert (value ^ bitmask) == 0x2d
+</code></pre>
+<p>&quot;逻辑或&quot; <code>or</code> 的妙用：当需要书写诸如 <code>A if A else B</code> 类似的模式时，可以使用 <code>A or B</code> 进行简化，比如如下代码:</p>
+<pre><code class="language-python">value = [0]
+default = [1]
+x0 = value if value else default
+x1 = value or default  # 使用 value or default 代替 value if value else default
+</code></pre>
+<h2 id="b11-如何判断变量是否为-noneundefined字符串dictlist-是否为空"><a class="header" href="#b11-如何判断变量是否为-noneundefined字符串dictlist-是否为空">B.11. 如何判断变量是否为 None/Undefined、字符串/dict/list 是否为空？</a></h2>
+<p>请注意，在 if 表达式的条件判断中，<code>False</code>、<code>None</code>、<code>Undefined</code>、数字 <code>0</code>、空列表 <code>[]</code>、空字典 <code>{}</code> 和空字符串 <code>&quot;&quot;</code>, <code>''</code>, <code>&quot;&quot;&quot;&quot;&quot;&quot;</code>, <code>''''''</code> 都被视为值为 <code>假</code> 的表达式。</p>
+<p>比如判断一个字符串变量 <code>strData</code> 既不为 <code>None/Undefined</code> 也不为空字符串时(字符串长度大于 0)，就可以简单的使用如下表达式:</p>
+<pre><code class="language-python">strData = &quot;value&quot;
+if strData:
+    isEmptyStr = False
+</code></pre>
+<p>空字典和空列表判断举例:</p>
+<pre><code class="language-python">_emptyList = []
+_emptyDict = {}
+isEmptyList = False if _emptyList else True
+isEmptyDict = False if _emptyDict else True
+</code></pre>
+<p>YAML 输出为:</p>
+<pre><code class="language-yaml">isEmptyList: true
+isEmptyDict: true
+</code></pre>
+<p>或者使用布尔函数 <code>bool</code> 进行判断</p>
+<pre><code class="language-python">_emptyList = []
+_emptyDict = {}
+isEmptyList = bool(_emptyList)
+isEmptyDict = bool(_emptyDict)
+</code></pre>
+<h2 id="b12-字符串怎样拼接怎样格式化字符串怎样检查字符串前缀后缀怎样替换字符串内容"><a class="header" href="#b12-字符串怎样拼接怎样格式化字符串怎样检查字符串前缀后缀怎样替换字符串内容">B.12. 字符串怎样拼接、怎样格式化字符串、怎样检查字符串前缀、后缀？怎样替换字符串内容？</a></h2>
+<ul>
+<li>KCL 中可以使用 <code>+</code> 运算符连接两个字符串</li>
+</ul>
+<pre><code class="language-python">data1 = &quot;string1&quot; + &quot;string2&quot;  # &quot;string1string2&quot;
+data2 = &quot;string1&quot; + &quot; &quot; + &quot;string2&quot;  # &quot;string1 string2&quot;
+</code></pre>
+<ul>
+<li>KCL 中目前存在两种格式化字符串的方式:
+<ul>
+<li>字符串变量的 format 方法 <code>&quot;{}&quot;.format()</code></li>
+<li>字符串插值 <code>${}</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">hello = &quot;hello&quot;
+a = &quot;{} world&quot;.format(hello)
+b = &quot;${hello} world&quot;
+# a,b 均被赋值为&quot;hello world&quot;
+</code></pre>
+<p>注意，如果想在 <code>&quot;{}&quot;.format()</code> 中单独使用 <code>{</code> 字符或者 <code>}</code>, 则需要使用 <code>{{</code> 和 <code>}}</code> 分别对 <code>{</code> 和 <code>}</code> 进行转义，比如转义一个 JSON 字符串如下代码：</p>
+<pre><code class="language-python">data = &quot;value&quot;
+jsonData = '{{&quot;key&quot;: &quot;{}&quot;}}'.format(data)
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">data: value
+jsonData: '{&quot;key&quot;: &quot;value&quot;}'
+</code></pre>
+<p>注意，如果想在 <code>${}</code> 插值字符串中单独使用 <code>$</code> 字符，则需要使用 <code>$$</code> 对 <code>$</code> 进行转义</p>
+<pre><code class="language-python">world = &quot;world&quot;
+a = &quot;hello {}&quot;.format(world)       # &quot;hello world&quot;
+b = &quot;hello ${world}&quot;               # &quot;hello world&quot;
+c = &quot;$$hello ${world}$$&quot;           # &quot;$hello world$&quot;
+c2 = &quot;$&quot; + &quot;hello ${world}&quot; + &quot;$&quot;  # &quot;$hello world$&quot;
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">world: world
+a: hello world
+b: hello world
+c: $hello world$
+c2: $hello world$
+</code></pre>
+<ul>
+<li>KCL 中使用字符串的 <code>startswith</code> 和 <code>endswith</code> 方法检查字符串的前缀和后缀</li>
+</ul>
+<pre><code class="language-python">data = &quot;length&quot;
+isEndsWith = data.endswith(&quot;th&quot;)  # True
+isStartsWith = &quot;length&quot;.startswith('len')  # True
+</code></pre>
+<ul>
+<li>KCL 中使用字符串的 replace 方法或者 regex.replace 函数替换字符串的内容</li>
+</ul>
+<pre><code class="language-python">import regex
+data1 = &quot;length&quot;.replace(&quot;len&quot;, &quot;xxx&quot;)  # 使用&quot;xxx&quot;替换&quot;len&quot;, &quot;xxxgth&quot;
+data2 = regex.replace(&quot;abc123&quot;, r&quot;\D&quot;, &quot;0&quot;)  # 替换&quot;abc123&quot;中的所有非数字为&quot;0&quot;, &quot;000123&quot;
+</code></pre>
+<p>其中，<code>r&quot;\D&quot;</code> 表示不需要使用 <code>\\</code> 转义 <code>\D</code> 中的反斜杠 <code>\</code>，多用于正则表达式字符串中</p>
+<p><code>regex.replace</code> 函数详细使用方式请参考:</p>
+<ul>
+<li><a href="#14-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">如何使用正则表达式？</a></li>
+</ul>
+<p>此外，我们可以在字符串格式化表达式中插入索引占位符或者关键字占位符用于格式化多个字符串</p>
+<ul>
+<li>索引占位符</li>
+</ul>
+<pre><code class="language-python">x = '{2} {1} {0}'.format('directions', 'the', 'Read')
+y = '{0} {0} {0}'.format('string')
+</code></pre>
+<p>输出为:</p>
+<pre><code class="language-yaml">x: Read the directions
+y: string string string
+</code></pre>
+<p>关键字占位符</p>
+<pre><code class="language-python">x = 'a: {a}, b: {b}, c: {c}'.format(a = 1, b = 'Two', c = 12.3)
+</code></pre>
+<p>输出为:</p>
+<pre><code class="language-yaml">x: 'a: 1, b: Two, c: 12.3'
+</code></pre>
+<h2 id="b13-字符串中使用单引号和双引号的区别是什么"><a class="header" href="#b13-字符串中使用单引号和双引号的区别是什么">B.13. 字符串中使用单引号和双引号的区别是什么？</a></h2>
+<p>KCL 单引号和双引号字符串几乎没有区别。唯一的区别是，不需要在单引号字符串中使用 <code>\&quot;</code> 转义双引号 <code>&quot;</code>，不需要在双引号字符串中使用 <code>\'</code> 转义单引号引号 <code>'</code>。</p>
+<pre><code class="language-python">singleQuotedString = 'This is my book named &quot;foo&quot;'  # Don’t need to escape double quotes in single quoted strings.
+doubleQuotedString = &quot;This is my book named 'foo'&quot;  # Don’t need to escape single quotes in double quoted strings.
+</code></pre>
+<p>此外在 KCL 中，使用三个单引号或者三个双引号组成的长字符串，无需在其中对单引号或者三引号进行转义 (除字符串首尾)，比如如下例子：</p>
+<pre><code class="language-python">longStrWithQuote0 = &quot;&quot;&quot;Double quotes in long strings &quot;(not at the beginning and end)&quot;&quot;&quot;
+longStrWithQuote1 = '''Double quotes in long strings &quot;(not at the beginning and end)'''
+longStrWithQuote2 = &quot;&quot;&quot;Single quotes in long strings '(not at the beginning and end)&quot;&quot;&quot;
+longStrWithQuote3 = '''Single quotes in long strings '(not at the beginning and end)'''
+</code></pre>
+<p>输出 YAML：</p>
+<pre><code class="language-yaml">longStrWithQuote0: Double quotes in long strings &quot;(not at the beginning and end)
+longStrWithQuote1: Double quotes in long strings &quot;(not at the beginning and end)
+longStrWithQuote2: Single quotes in long strings '(not at the beginning and end)
+longStrWithQuote3: Single quotes in long strings '(not at the beginning and end)
+</code></pre>
+<h2 id="b14-如何编写跨行的长字符串"><a class="header" href="#b14-如何编写跨行的长字符串">B.14. 如何编写跨行的长字符串？</a></h2>
+<p>KCL 中可以使用单引号字符串 + 换行符 <code>\n</code> 或者三引号字符串书写一个多行字符串，并且可以借助续行符 <code>\</code> 优化 KCL 字符串的形式，比如对于如下代码中的三个多行字符串变量，它们的制是相同的：</p>
+<pre><code class="language-python">string1 = &quot;The first line\nThe second line\nThe third line\n&quot;
+string2 = &quot;&quot;&quot;The first line
+The second line
+The third line
+&quot;&quot;&quot;
+string3 = &quot;&quot;&quot;\
+The first line
+The second line
+The third line
+&quot;&quot;&quot;  # 推荐使用 string3 长字符串的书写形式
+</code></pre>
+<p>输出 YAML 为：</p>
+<pre><code class="language-yaml">string1: |
+  The first line
+  The second line
+  The third line
+string2: |
+  The first line
+  The second line
+  The third line
+string3: |
+  The first line
+  The second line
+  The third line
+</code></pre>
+<h2 id="b15-如何使用正则表达式"><a class="header" href="#b15-如何使用正则表达式">B.15. 如何使用正则表达式？</a></h2>
+<p>通过在 KCL 中导入正则表达式库 <code>import regex</code> 即可使用正则表达式，其中包含了如下函数:</p>
+<ul>
+<li><strong>match</strong>: 正则表达式匹配函数，正根正则表达式对输入字符串进行匹配，返回 bool 类型表示是否匹配成功</li>
+<li><strong>split</strong>: 正则表达式分割函数，根据正则表达式分割字符串，返回分割字串的列表</li>
+<li><strong>replace</strong>: 正则表达式替换函数，替换字符串中所有满足正则表达式的子串，返回被替换的字符串</li>
+<li><strong>compile</strong>: 正则表达式编译函数，返回 bool 类型表示是否是一个合法的正则表达式</li>
+<li><strong>search</strong>: 正则表达式搜索函数，搜索所有满足正则表达式的子串，返回子串的列表</li>
+</ul>
+<p>使用举例:</p>
+<pre><code class="language-python">regex_source = &quot;Apple,Google,Baidu,Xiaomi&quot;
+regex_split = regex.split(regex_source, &quot;,&quot;)
+regex_replace = regex.replace(regex_source, &quot;,&quot;, &quot;|&quot;)
+regex_compile = regex.compile(&quot;$^&quot;)
+regex_search = regex.search(&quot;aaaa&quot;, &quot;a&quot;)
+regex_find_all = regex.findall(&quot;aaaa&quot;, &quot;a&quot;)
+regex_result = regex.match(&quot;192.168.0.1&quot;, &quot;^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$&quot;)  # 判断是否是一个IP字符串
+regex_result_false = regex.match(&quot;192.168.0,1&quot;, &quot;^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.&quot;+&quot;(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$&quot;)  # 判断是否是一个IP字符串
+</code></pre>
+<p>输出 YAML:</p>
+<pre><code class="language-yaml">regex_source: Apple,Google,Baidu,Xiaomi
+regex_split:
+- Apple
+- Google
+- Baidu
+- Xiaomi
+regex_replace: Apple|Google|Baidu|Xiaomi
+regex_compile: true
+regex_search: true
+regex_find_all:
+- a
+- a
+- a
+- a
+regex_result: true
+regex_result_false: false
+</code></pre>
+<p>对于比较长的正则表达式，还可以使用 r-string 忽略 <code>\</code> 符号的转义简化正则表达式字符串的书写:</p>
+<pre><code class="language-python">isIp = regex.match(&quot;192.168.0.1&quot;, r&quot;^(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[1-9]).&quot;+r&quot;(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d).&quot;+r&quot;(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d).&quot;+r&quot;(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)$&quot;)  # 判断是否是一个IP字符串
+</code></pre>
+<p>更多举例:</p>
+<pre><code class="language-python">import regex
+
+schema Resource:
+    cpu:         str = &quot;1&quot;
+    memory:      str = &quot;1024Mi&quot;
+    disk:        str = &quot;10Gi&quot;
+    check:
+        regex.match(cpu, r&quot;^([+-]?[0-9.]+)([m]*[-+]?[0-9]*)$&quot;), &quot;cpu must match specific regular expression&quot;
+        regex.match(memory, r&quot;^([1-9][0-9]{0,63})(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)$&quot;), &quot;memory must match specific regular expression&quot;
+        regex.match(disk, r&quot;^([1-9][0-9]{0,63})(E|P|T|G|M|K|Ei|Pi|Ti|Gi|Mi|Ki)$&quot;), &quot;disk must match specific regular expression&quot;
+</code></pre>
+<pre><code class="language-python">import regex
+
+schema Env:
+    name:            str
+    value?:          str
+    check:
+        len(name) &lt;= 63, &quot;a valid env name must be no more than 63 characters&quot;
+        regex.match(name, r&quot;[A-Za-z_][A-Za-z0-9_]*&quot;), &quot;a valid env name must start with alphabetic character or '_', followed by a string of alphanumeric characters or '_'&quot;
+</code></pre>
+<h2 id="b16-kcl-当中的-schema-是什么含义"><a class="header" href="#b16-kcl-当中的-schema-是什么含义">B.16. KCL 当中的 schema 是什么含义？</a></h2>
+<p>schema 是 KCL 中一种语言元素，用于定义配置数据的类型，像 C 语言中的 struct 或者 Java 中的 class 一样，在其中可以定义属性，每种属性具有相应的类型，比如问题 <a href="#17-%E5%A6%82%E4%BD%95%E5%A3%B0%E6%98%8E-schema-">17. 如何声明 schema</a> 当中显示的 schema 例子</p>
+<h2 id="b17-如何声明-schema"><a class="header" href="#b17-如何声明-schema">B.17. 如何声明 schema？</a></h2>
+<p>KCL 中使用 schema 关键字可以定义一个结构，在其中可以申明 schema 的各个属性</p>
+<pre><code class="language-python"># 一个Person结构，其中具有属性字符串类型的firstName, 字符串类型的lastName, 整数类型的age
+schema Person:
+    firstName: str
+    lastName: str
+    # age属性的默认值为0
+    age: int = 0
+</code></pre>
+<p>一个复杂例子:</p>
+<pre><code class="language-python">schema Deployment:
+    name: str
+    cpu: int
+    memory: int
+    image: str
+    service: str
+    replica: int
+    command: [str]
+    labels: {str:str}
+</code></pre>
+<p>在上面的代码中，<code>cpu</code> 和 <code>memory</code> 被定义为整数 int 类型；<code>name</code>，<code>image</code> 和 <code>service</code> 是字符串 str 类型;
+<code>command</code> 是字符串类型的列表; labels 是字典类型，其键类型和值类型均为字符串。</p>
+<h2 id="b18-如何为-schema-属性添加-不可变必选-约束"><a class="header" href="#b18-如何为-schema-属性添加-不可变必选-约束">B.18. 如何为 schema 属性添加 &quot;不可变&quot;、&quot;必选&quot; 约束？</a></h2>
+<p>KCL 中使用 <code>?</code> 运算符定义一个 schema 的&quot;可选&quot;约束，schema 属性默认都是&quot;必选&quot;的</p>
+<pre><code class="language-python"># 一个Person结构，其中具有属性字符串类型的firstName, 字符串类型的lastName, 整数类型的age
+schema Person:
+    firstName?: str  # firstName是一个可选属性，可以赋值为None/Undefined
+    lastName?: str  # age是一个可选属性，可以赋值为None/Undefined
+    # age属性的默认值为0
+    age: int = 18  # age是一个必选属性，不能赋值为None/Undefined，并且是一个不可变属性
+    age = 10  # Error, age是一个不可变的属性
+</code></pre>
+<h2 id="b19-如何为-schema-中的属性编写校验规则"><a class="header" href="#b19-如何为-schema-中的属性编写校验规则">B.19. 如何为 schema 中的属性编写校验规则？</a></h2>
+<p>在 schema 定义当中可以使用 check 关键字编写 schema 属性的校验规则, 如下所示，check 代码块中的每一行都对应一个条件表达式，当满足条件时校验成功，当不满足条件时校验失败, 条件表达式后可跟 <code>, &quot;check error message&quot;</code> 表示当校验失败时需要显示的信息</p>
+<pre><code class="language-python">import regex
+
+schema Sample:
+    foo: str  # Required, 不能为None/Undefined, 且类型必须为str
+    bar: int  # Required, 不能为None/Undefined, 且类型必须为int
+    fooList: [int]  # Required, 不能为None/Undefined, 且类型必须为int列表
+    color: &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;  # Required, 字面值联合类型，且必须为&quot;Red&quot;, &quot;Yellow&quot;, &quot;Blue&quot;中的一个，枚举作用
+    id?: int  # Optional，可以留空，类型必须为int
+
+    check:
+        bar &gt;= 0  # bar必须大于等于0
+        bar &lt; 100 # bar必须小于100
+        len(fooList) &gt; 0  # fooList不能为None/Undefined，并且长度必须大于0
+        len(fooList) &lt; 100 # fooList不能为None/Undefined，并且长度必须小于100
+        regex.match(foo, &quot;^The.*Foo$&quot;) # regex 正则表达式匹配
+        bar in range(100) # range, bar范围只能为1到99
+        bar in [2, 4, 6, 8] # enum, bar只能取2, 4, 6, 8
+        bar % 2 == 0  # bar必须为2的倍数
+        all foo in fooList {
+            foo &gt; 1
+        }  # fooList中的所有元素必须大于1
+        any foo in fooList {
+            foo &gt; 10
+        }  # fooList中至少有一个元素必须大于10
+        abs(id) &gt; 10 if id  # check if 表达式，当 id 不为空时，id的绝对值必须大于10
+</code></pre>
+<p>此外，上述 check 当中比较表达式还可以简写为:</p>
+<pre><code class="language-python">0 &lt;= bar &lt; 100
+0 &lt; len(fooList) &lt; 100
+</code></pre>
+<p>综上所述，KCL Schema 中支持的校验类型为:</p>
+<table><thead><tr><th>校验类型</th><th>使用方法</th></tr></thead><tbody>
+<tr><td>范围校验</td><td>使用 <code>&lt;</code>, <code>&gt;</code> 等比较运算符</td></tr>
+<tr><td>正则校验</td><td>使用 <code>regex</code> 系统库中的 <code>match</code> 等方法</td></tr>
+<tr><td>长度校验</td><td>使用 <code>len</code> 内置函数，可以求 <code>list/dict/str</code> 类型的变量长度</td></tr>
+<tr><td>枚举校验</td><td>使用字面值联合类型</td></tr>
+<tr><td>非空校验</td><td>使用 schema 的可选/必选属性</td></tr>
+<tr><td>条件校验</td><td>使用 check if 条件表达式</td></tr>
+</tbody></table>
+<h2 id="b20-如何为-schema-及其属性添加文档注释"><a class="header" href="#b20-如何为-schema-及其属性添加文档注释">B.20. 如何为 schema 及其属性添加文档注释？</a></h2>
+<p>一个完整的 schema 属性注释使用三引号字符串表示，其中的结构如下所示:</p>
+<pre><code class="language-python">schema Person:
+    &quot;&quot;&quot;The schema person definition
+
+    Attributes
+    ----------
+    name : str
+        The name of the person
+    age : int
+        The age of the person
+
+    See Also
+    --------
+    Son:
+        Sub-schema Son of the schema Person.
+
+    Examples
+    --------
+    person = Person {
+        name = &quot;Alice&quot;
+        age = 18
+    }
+    &quot;&quot;&quot;
+    name: str
+    age: int
+
+person = Person {
+    name = &quot;Alice&quot;
+    age = 18
+}
+</code></pre>
+<h2 id="b21-如何基于-schema-编写配置多个配置之间如何复用公共的配置"><a class="header" href="#b21-如何基于-schema-编写配置多个配置之间如何复用公共的配置">B.21. 如何基于 schema 编写配置？多个配置之间如何复用公共的配置？</a></h2>
+<p>在 schema 实例化的过程中可以使用解包运算符 <code>**</code> 对公共的配置进行展开</p>
+<pre><code class="language-python">schema Boy:
+    name: str
+    age: int
+    hc: int
+
+schema Girl:
+    name: str
+    age: int
+    hc: int
+
+config = {
+    age = 18
+    hc = 10
+}
+
+boy = Boy {
+    **config
+    name = &quot;Bob&quot;
+}
+girl = Girl {
+    **config
+    name = &quot;Alice&quot;
+}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">config:
+  age: 18
+  hc: 10
+boy:
+  name: Bob
+  age: 18
+  hc: 10
+girl:
+  name: Alice
+  age: 18
+  hc: 10
+</code></pre>
+<h2 id="b22-基于-schema-编写配置时如何覆盖-schema-属性的默认值"><a class="header" href="#b22-基于-schema-编写配置时如何覆盖-schema-属性的默认值">B.22. 基于 schema 编写配置时如何覆盖 schema 属性的默认值？</a></h2>
+<p>在定义 schema 后，可以使用 schema 名称实例化相应的配置，使用 <code>:</code> 运算符对 schema 默认值进行 union, 使用 <code>=</code> 对 schema 默认值进行覆盖。对于 int/float/bool/str 类型的 schema 属性，union 和覆盖的效果相同; 对于 list/dict/schema 类型的 schema 属性，union 和覆盖的效果不同;</p>
+<pre><code class="language-python">schema Meta:
+    labels: {str:str} = {&quot;key1&quot; = &quot;value1&quot;}
+    annotations: {str:str} = {&quot;key1&quot; = &quot;value1&quot;}
+
+meta = Meta {
+    labels: {&quot;key2&quot;: &quot;value2&quot;}
+    annotations = {&quot;key2&quot; = &quot;value2&quot;}
+}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">meta:
+  labels:
+    key1: value1
+    key2: value2
+  annotations:
+    key2: value2
+</code></pre>
+<h2 id="b23-如何通过继承来复用-schema-定义"><a class="header" href="#b23-如何通过继承来复用-schema-定义">B.23. 如何通过继承来复用 schema 定义？</a></h2>
+<p>可以在 schema 定义处声明 schema 需要继承的 schema 名称:</p>
+<pre><code class="language-python"># A person has a first name, a last name and an age.
+schema Person:
+    firstName: str
+    lastName: str
+    # The default value of age is 0
+    age: int = 0
+
+# An employee **is** a person, and has some additional information.
+schema Employee(Person):
+    bankCard: int
+    nationality: str
+
+employee = Employee {
+    firstName = &quot;Bob&quot;
+    lastName = &quot;Green&quot;
+    age = 18
+    bankCard = 123456
+    nationality = &quot;China&quot;
+}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">employee:
+  firstName: Bob
+  lastName: Green
+  age: 18
+  bankCard: 123456
+  nationality: China
+</code></pre>
+<p>注意: KCL 只允许 schema 单继承</p>
+<h2 id="b24-如何通过组合复用-schema-逻辑"><a class="header" href="#b24-如何通过组合复用-schema-逻辑">B.24. 如何通过组合复用 schema 逻辑？</a></h2>
+<p>可以使用 KCL schema mixin 复用 schema 逻辑，mixin 一般被用于 schema 内部属性的分离数据，和数据映射等功能，可以使 KCL 代码更具模块化和声明性。注意不同的 mixin 之间的混入属性不建议定义依赖关系，会使得 mixin 使用方式复杂，一般一个 mixin 中作不超过三个属性混入即可。</p>
+<pre><code class="language-python">schema Person:
+    mixin [FullNameMixin, UpperMixin]
+
+    firstName: str
+    lastName: str
+    fullName: str
+    upper: str
+
+schema FullNameMixin:
+    fullName = &quot;{} {}&quot;.format(firstName, lastName)
+
+schema UpperMixin:
+    upper = fullName.upper()
+
+person = Person {
+    firstName = &quot;John&quot;
+    lastName = &quot;Doe&quot;
+}
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">person:
+  firstName: John
+  lastName: Doe
+  fullName: John Doe
+  upper: JOHN DOE
+</code></pre>
+<h2 id="b25-如何导入其他-kcl-文件"><a class="header" href="#b25-如何导入其他-kcl-文件">B.25. 如何导入其他 KCL 文件？</a></h2>
+<p>通过 import 关键字可以导入其他 KCL 文件，KCL 配置文件被组织为模块。单个 KCL 文件被视为一个模块，目录被视为一个包，作为一个特殊的模块。import 关键字支持相对路径导入和绝对路径导入两种方式</p>
+<p>比如对于如下目录结构:</p>
+<pre><code>. 
+└── root
+    ├── kcl.mod
+    ├── model
+    │   ├── model1.k
+    |   ├── model2.k
+    │   └── main.k
+    ├── service
+    │   │── service1.k
+    │   └── service2.k
+    └── mixin
+        └── mixin1.k
+</code></pre>
+<p>对于 <code>main.k</code>, 相对路径导入和绝对路径导入分别可以表示为:</p>
+<pre><code class="language-python">import service  # 绝对路径导入, 根目录为kcl.mod所在的路径
+import mixin  # 绝对路径导入, 根目录为kcl.mod所在的路径
+
+import .model1  # 相对路径导入, 当前目录模块
+import ..service  # 相对路径导入, 父目录
+import ...root  # 相对路径导入, 父目录的父目录
+</code></pre>
+<p>注意，对于 KCL 的入口文件 <code>main.k</code>, 其不能导入自身所在的文件夹，否则会发生循环导入错误:</p>
+<pre><code class="language-python">import model  # Error: recursively loading
+</code></pre>
+<h2 id="b26-什么情况下可以省略-import-"><a class="header" href="#b26-什么情况下可以省略-import-">B.26. 什么情况下可以省略 import ？</a></h2>
+<p>除了 main 包当中的同一文件夹下的 KCL 可以相互引用而不需通过 import 相互引用，比如对于如下目录结构:</p>
+<pre><code>. 
+└── root
+    ├── kcl.mod
+    ├── model
+    │   ├── model1.k
+    |   ├── model2.k
+    │   └── main.k
+    ├── service
+    │   │── service1.k
+    │   └── service2.k
+    └── mixin
+        └── mixin1.k
+</code></pre>
+<p>当 main.k 作为 KCL 命令行入口文件时, model 文件夹中的 main.k, model1.k 和 model2.k 中的变量不能相互引用，需要通过 import 导入，但是 service 文件夹中的 service1.k 和 service2.k 当中的变量可以互相引用，忽略 import</p>
+<p>service1.k</p>
+<pre><code class="language-python">schema BaseService:
+    name: str
+    namespace: str
+</code></pre>
+<p>service2.k</p>
+<pre><code class="language-python">schema Service(BaseService):
+    id: str
+</code></pre>
+<h2 id="b27-有一行代码太长了如何在语法正确的情况下优雅地换行"><a class="header" href="#b27-有一行代码太长了如何在语法正确的情况下优雅地换行">B.27. 有一行代码太长了，如何在语法正确的情况下优雅地换行？</a></h2>
+<p>在 KCL 中可以使用续行符 <code>\</code> 进行换行, 并且在字符串中也可以使用 <code>\</code> 表示续行</p>
+<p>长字符串连接续行举例:</p>
+<pre><code class="language-python">longString = &quot;Too long expression &quot; + \
+             &quot;Too long expression &quot; + \
+             &quot;Too long expression &quot;
+</code></pre>
+<p>推导表达式续行举例:</p>
+<pre><code class="language-python">data = [1, 2, 3, 4]
+dataNew = [
+    d + 2 \
+    for d in data \
+    if d % 2 == 0
+]
+</code></pre>
+<p>if 表达式续行举例:</p>
+<pre><code class="language-python">condition = 1
+data1 = 1 \
+    if condition \
+    else 2
+data2 = 2 \
+if condition \
+else 1
+</code></pre>
+<p>三引号字符串内部续行举例:</p>
+<pre><code class="language-python">longString = &quot;&quot;&quot;\
+The first line\
+The continue second line\
+&quot;&quot;&quot;
+</code></pre>
+<p>注意: 使用续行符 <code>\</code> 的同时缩进的保持, 如下所示:</p>
+<p>错误用例:</p>
+<pre><code class="language-python">data1 = [
+    1, 2,
+    3, 4 \  
+]  # Error, 需要保持右方括号]的缩进
+
+data2 = [
+    1, 2,
+  3, 4 
+]  # Error, 需要数字1和3的缩进统一
+</code></pre>
+<p>正确用例:</p>
+<pre><code class="language-python">data1 = [
+    1, 2,
+    3, 4
+]  # Right, 带缩进的列表定义
+
+data2 = [ \
+    1, 2, \
+    3, 4  \
+]  # Right, 使用续行符的列表定义, 实际效果是单行列表
+
+data3 = [ \
+    1, 2, \
+  3, 4  \
+]  # Right, 使用续行符的列表定义, 无需保持缩进, 实际效果是单行列表
+</code></pre>
+<h2 id="b28---这些符号是什么意思"><a class="header" href="#b28---这些符号是什么意思">B.28. **, * 这些符号是什么意思？</a></h2>
+<ul>
+<li><code>**</code>, <code>*</code> 出现在 dict/list 外部时分别表示乘方运算符和乘法运算符</li>
+</ul>
+<pre><code class="language-python">data1 = 2 ** 4  # 2的4次方等于16
+data2 = 2 * 3  # 2乘以3等于6
+</code></pre>
+<ul>
+<li><code>**</code>, <code>*</code> 出现在 dict/list 内部时表示解包运算符，经常用于 list/dict 的解包和合并, 与 Python 当中的解包运算符用法相同</li>
+</ul>
+<p>dict 的解包:</p>
+<pre><code class="language-python">data = {&quot;key1&quot; = &quot;value1&quot;}
+dataUnpack = {**data, &quot;key2&quot; = &quot;value2&quot;}  # 将data解包合并入dataUnpack中, {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}
+</code></pre>
+<p>list 的解包:</p>
+<pre><code class="language-python">data = [1, 2, 3]
+dataUnpack = [*data, 4, 5, 6]  # 将data解包合并入dataUnpack中, [1, 2, 3, 4, 5, 6]
+</code></pre>
+<h2 id="b29-如何取-listdictschema-的子元素"><a class="header" href="#b29-如何取-listdictschema-的子元素">B.29. 如何取 list/dict/schema 的子元素</a></h2>
+<p>在 KCL 中可以使用 select 表达式或者 subscript 表达式取 list/dict/schema 的子元素</p>
+<ul>
+<li>对于 list 类型，可以使用 <code>[]</code> 取列表中的某一个元素或者某一些元素</li>
+</ul>
+<pre><code class="language-python">data = [1, 2, 3]  # 定义一个整数类型的数组
+theFirstItem = data[0]  # 取数组中索引为0的元素，即第一个元素 1
+theSecondItem = data[1]  # 取数组中索引为1的元素，即第一个元素 2
+</code></pre>
+<p>注意：索引的取值不能超出列表的长度，否则会发生错误，可以使用 <code>len</code> 函数获得数组的长度</p>
+<pre><code class="language-python">data = [1, 2, 3]
+dataLength = len(data)  # 数组长度为3
+item = data[3]  # 发生数组索引越界错误
+</code></pre>
+<p>此外，还可以使用负数索引倒序获得列表中的元素</p>
+<pre><code class="language-python">data = [1, 2, 3]
+item1 = data[-1]  # 取数组中索引为-1的元素，即最后一个元素 3
+item2 = data[-2]  # 取数组中索引为-2的元素，即倒数第二个元素 2
+</code></pre>
+<p>综上，列表索引的取值范围为 <code>[-len, len - 1]</code></p>
+<p>当想要取得列表的一部分时，可以在 <code>[]</code> 中使用切片表达式，其具体语法为 <code>[&lt;列表开始索引&gt;:&lt;列表终止索引&gt;:&lt;列表遍历步长&gt;]</code>，注意索引开始终止的取值区间为 <code>左闭右开[&lt;列表开始索引&gt;, &lt;列表终止索引&gt;)</code>，注意三个参数均可省略不写</p>
+<pre><code class="language-python">data = [1, 2, 3, 4, 5]
+dataSlice0 = data[1:2]  # 取列表中索引开始为 1, 终止索引为 2 的元素集合 [2]
+dataSlice1 = data[1:3]  # 取列表中索引开始为 1, 终止索引为 3 的元素集合 [2, 3]
+dataSlice2 = data[1:]   # 取列表中索引开始为 1, 终止索引为 最后一个索引 的元素集合 [2, 3, 4, 5]
+dataSlice3 = data[:3]   # 取列表中索引开始为 第一个索引, 终止索引为 3 的元素集合 [1, 2, 3]
+dataSlice4 = data[::2]  # 取列表中索引开始为 第一个索引, 终止索引为 最后一个索引 的元素集合(步长为2) [1, 3, 5]
+dataSlice5 = data[::-1] # 反转一个列表，[5, 4, 3, 2, 1]
+dataSlice6 = data[2:1]  # 当开始，终止，步长三个参数组合不满足条件时返回空列表 []
+
+</code></pre>
+<ul>
+<li>对于 dict/schema 类型，可以使用 <code>[]</code> 和 <code>.</code> 两种方式取 dict/schema 中的子元素</li>
+</ul>
+<pre><code class="language-python">data = {key1: &quot;value1&quot;, key2: &quot;value2&quot;}
+data1 = data[&quot;key1&quot;]  # &quot;value1&quot;
+data2 = data.key1  # &quot;value1&quot;
+data3 = data[&quot;key2&quot;]  # &quot;value2&quot;
+data4 = data.key2  # &quot;value2&quot;
+</code></pre>
+<pre><code class="language-python">schema Person:
+    name: str = &quot;Alice&quot;
+    age: int = 18
+
+person = Person {}
+name1 = person.name  # &quot;Alice&quot;
+name2 = person[&quot;name&quot;]  # &quot;Alice&quot;
+age1 = person.age  # 18
+age2 = person.age  # 18
+</code></pre>
+<p>当键值在 dict 中不存在时，返回未定义值 <code>Undefined</code></p>
+<pre><code class="language-python">data = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;}
+data1 = data[&quot;not_exist_key&quot;]  # Undefined
+data2 = data.not_exist_key  # Undefined
+</code></pre>
+<p>可以使用 <code>in</code> 关键字判断某个键值是否在 dict/schema 中存在</p>
+<pre><code class="language-python">data = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;}
+exist1 = &quot;key1&quot; in data  # True
+exist2 = &quot;not_exist_key&quot; in data  # False
+</code></pre>
+<p>当键值中存在 <code>.</code> 时或者需要运行时取一个键值变量对应的值时，只能使用 <code>[]</code> 方式，如无特殊情况，使用 <code>.</code> 即可:</p>
+<pre><code class="language-python">name = &quot;key1&quot;
+data = {key1 = &quot;value1&quot;, key2 = &quot;value2&quot;, &quot;contains.dot&quot; = &quot;value3&quot;}
+data1 = data[name]  # &quot;value1&quot;
+data2 = data[&quot;contains.dot&quot;]  # &quot;value3&quot;
+# 注意这样子是不对的 data3 = data.contains.dot
+</code></pre>
+<p>注意：上述取子元素的运算符不能对非 list/dict/schema 集合类型的值进行操作，比如整数，空值等。</p>
+<pre><code class="language-python">data = 1
+data1 = 1[0] # error
+</code></pre>
+<pre><code class="language-python">data = None
+data1 = None[0] # error
+</code></pre>
+<p>因此，在取集合类型的子元素时往往要进行非空或者长度判断：</p>
+<pre><code class="language-python">data = []
+item = data[0] if data else None
+</code></pre>
+<p>可以使用非空判断符 <code>?</code> 添加在 <code>[]</code>, <code>.</code> 的前面表示进行 if 非空判断，当不满足条件时返回 None，比如上述代码可以简化为:</p>
+<pre><code class="language-python">data = []
+item1 = data?[0]  # 当data为空时，返回空值 None
+item2 = data?[0] or 1  # 当data为空时，返回空值 None, 如果不想返回 None, 还可与 or 运算符连用返回其他默认值
+</code></pre>
+<p>使用 <code>?</code> 可以进行递归调用, 避免复杂繁琐的非空判断</p>
+<pre><code class="language-python">data = {key1.key2.key3 = []}
+item = data?.key1?.key2?.key3?[0]
+</code></pre>
+<h2 id="b30-如何在-kcl-代码中判断变量的类型"><a class="header" href="#b30-如何在-kcl-代码中判断变量的类型">B.30. 如何在 KCL 代码中判断变量的类型</a></h2>
+<p>KCL typeof built-in 函数可以在该函数执行时立即返回一个变量的类型(字符串表示)用于类型断言</p>
+<p>用法举例:</p>
+<pre><code class="language-python">import sub as pkg
+
+_a = 1
+
+t1 = typeof(_a)
+t2 = typeof(&quot;abc&quot;)
+
+schema Person:
+    name?: any
+
+_x1 = Person{}
+t3 = typeof(_x1)
+
+_x2 = pkg.Person{}
+t4 = typeof(_x2)
+t5 = typeof(_x2, full_name=True)
+
+t6 = typeof(_x1, full_name=True)
+
+# 输出
+# t1: int
+# t2: str
+# t3: Person
+# t4: Person
+# t5: sub.Person
+# t6: __main__.Person
+</code></pre>
+<h2 id="b31-关键字和-kcl-变量名冲突了可以怎么解决"><a class="header" href="#b31-关键字和-kcl-变量名冲突了可以怎么解决">B.31. 关键字和 KCL 变量名冲突了可以怎么解决?</a></h2>
+<p>对于与关键字冲突的标识符，可以在标识符前添加 <code>$</code> 前缀用于定义一个关键字标识符，比如如下代码中使用了 <code>if</code>, <code>else</code> 等关键字作为标识符并且可以得到相应的 YAML 输出</p>
+<pre><code class="language-python">$if = 1
+$else = &quot;s&quot;
+
+schema Data:
+    $filter: str = &quot;filter&quot;
+
+data = Data {}
+</code></pre>
+<p>输出 YAML：</p>
+<pre><code class="language-yaml">data:
+  filter: filter
+if: 1
+else: s
+</code></pre>
+<p>注意：在非关键字标识符前添加 <code>$</code> 前缀的效果与不添加相同</p>
+<pre><code class="language-python">_a = 1
+$_a = 2  # 等效于 `_a = 2`
+</code></pre>
+<h2 id="b32-kcl-的内置类型是-kcl-的关键字吗是否可用于变量的定义"><a class="header" href="#b32-kcl-的内置类型是-kcl-的关键字吗是否可用于变量的定义">B.32. KCL 的内置类型是 KCL 的关键字吗？是否可用于变量的定义</a></h2>
+<p>KCL 的内置类型包括 <code>int</code>, <code>float</code>, <code>bool</code> 和 <code>str</code> 四种类型，它们不是 KCL 的关键字，可用于变量的定义，比如如下代码：</p>
+<pre><code class="language-py">int = 1
+str = 2
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">int: 1
+str: 2
+</code></pre>
+<p>注意：如无特殊需求，不建议变量的名称取这些内置类型，因为在有些语言当中，它们作为关键字存在</p>
+<h2 id="b33-如何在-kcl-中实现类似-enum-枚举的功能"><a class="header" href="#b33-如何在-kcl-中实现类似-enum-枚举的功能">B.33. 如何在 KCL 中实现类似 Enum 枚举的功能</a></h2>
+<p>有两种方式可以在 KCL 中实现 Enum 枚举的方式</p>
+<ul>
+<li>(推荐)使用<strong>字面值类型</strong>的<strong>联合类型</strong></li>
+</ul>
+<pre><code class="language-python">schema Person:
+    name: str
+    gender: &quot;Male&quot; | &quot;Female&quot;
+
+person = Person {
+    name = &quot;Alice&quot;
+    gender = &quot;Male&quot;  # gender 只能为 &quot;Male&quot; 或者 &quot;Female&quot; 
+}
+</code></pre>
+<p>一个复杂例子</p>
+<pre><code class="language-python">schema Config:
+    colors: [&quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;]  # colors 是一个枚举数组
+
+config = Config {
+    colors = [
+        &quot;Red&quot;
+        &quot;Blue&quot;
+    ]
+}
+</code></pre>
+<ul>
+<li>使用 schema 的 check 表达式</li>
+</ul>
+<pre><code class="language-python">schema Person:
+    name: str
+    gender: &quot;Male&quot; | &quot;Female&quot;
+
+    check:
+        gender in [&quot;Male&quot;, &quot;Female&quot;]
+
+person = Person {
+    name = &quot;Alice&quot;
+    gender = &quot;Male&quot;  # gender 只能为 &quot;Male&quot; 或者 &quot;Female&quot; 
+}
+</code></pre>
+<h2 id="b34-如何求字典-dict-的长度"><a class="header" href="#b34-如何求字典-dict-的长度">B.34. 如何求字典 dict 的长度</a></h2>
+<p>在 KCL 中可以使用 <code>len</code> 内置函数直接求 dict 的长度</p>
+<pre><code class="language-python">len1 = len({k1: &quot;v1&quot;})  # 1
+len2 = len({k1: &quot;v1&quot;, k2: &quot;v2&quot;})  # 2
+varDict = {k1 = 1, k2 = 2, k3 = 3}
+len3 = len(varDict)  # 3
+</code></pre>
+<p>此外，使用 <code>len</code> 函数还可以求 <code>str</code> 和 <code>list</code> 类型长度</p>
+<pre><code class="language-python">len1 = len(&quot;hello&quot;)  # 5
+len2 = len([1, 2, 3])  # 3
+</code></pre>
+<h2 id="b35-如何在-kcl-中编写带条件的配置"><a class="header" href="#b35-如何在-kcl-中编写带条件的配置">B.35. 如何在 KCL 中编写带条件的配置</a></h2>
+<p>在 KCL 中，除了支持在顶级的语句中书写 <code>if-elif-else</code> 条件表达式以外，还支持在 KCL 复杂结构（list/dict/schema）中书写条件表达式，支持带条件的配置书写。</p>
+<pre><code class="language-python">x = 1
+# List 结构中的 if 条件语句
+dataList = [
+    if x == 1:
+]
+# Dict 结构中的 if 条件语句
+dataDict = {
+    if x == 1: key1 = &quot;value1&quot;  # 可以同一行书写
+    elif x == 2:
+        key2 = &quot;value2&quot;  # 可以跨行书写
+}
+# Schema 结构中的 if 条件语句
+schema Config:
+    id?: int
+env = &quot;prod&quot;
+dataSchema = Config {
+    if env == &quot;prod&quot;:
+        id = 1
+    elif env == &quot;pre&quot;:
+        id = 2
+    elif env == &quot;test&quot;:
+        id = 3
+}
+</code></pre>
+<p>注意：为降低书写配置复杂性提升可读性，在 KCL 复杂结构中暂不支持 <code>if-elif-else</code> 条件的嵌套</p>
+<h2 id="b36-kcl-中的--运算符会作深度比较嘛"><a class="header" href="#b36-kcl-中的--运算符会作深度比较嘛">B.36. KCL 中的 == 运算符会作深度比较嘛？</a></h2>
+<p>KCL 中的 <code>==</code> 运算符</p>
+<ul>
+<li>对于基本类型 <code>int</code>, <code>float</code>, <code>bool</code>, <code>str</code> 的变量是直接比较它们的值是否相等</li>
+<li>对于复合类型 <code>list</code>, <code>dict</code>, <code>schema</code> 的变量会深度递归地比较其中的子元素是否相等
+<ul>
+<li><code>list</code> 类型深度递归递归比较每个索引的值以及长度</li>
+<li><code>dict</code>/<code>schema</code> 类型深度递归比较每个属性的值(与属性出现的顺序无关)</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">print([1, 2] == [1, 2])  # True
+print([[0, 1], 1] == [[0, 1], 1])  # True
+print({k1 = 1, k2 = 2} == {k2 = 2, k1 = 1})  # True
+
+print([1, 2] == [1, 2, 3])  # False
+print({k1 = 1, k2 = 2, k3 = 3} == {k2 = 2, k1 = 1})  # False
+</code></pre>
+<h2 id="b37-如何对-kcl-中已有的配置块进行修改"><a class="header" href="#b37-如何对-kcl-中已有的配置块进行修改">B.37. 如何对 KCL 中已有的配置块进行修改</a></h2>
+<p>在 KCL 中，存在三种<strong>属性运算符</strong> <code>=</code>、<code>+=</code>、<code>:</code>，可以用来对已有配置块进行修改，并且可以使用<strong>解包运算符</strong> <code>**</code> 等&quot;继承&quot;一个配置块的所有属性字段和值。</p>
+<ul>
+<li><code>=</code> 属性运算符表示覆盖，使用 <code>=</code> 运算符可以对属性进行有优先级的覆盖/删除，(如果是用 <code>Undefined</code> 覆盖则表示删除)</li>
+<li><code>+=</code> 属性运算符表示添加，一般用于对 list 类型的属性添加子元素，<code>+=</code> 属性运算符后跟的操作数类型也只能为 list 类型</li>
+<li><code>:</code> 属性运算符表示幂等合并，当值发生冲突时进行报错，不冲突时进行合并</li>
+</ul>
+<h3 id="b覆盖属性运算符"><a class="header" href="#b覆盖属性运算符">B.覆盖属性运算符=</a></h3>
+<p>最常使用的属性运算符是 <code>=</code>，表示一个属性的赋值，多次对同一个属性进行使用时表示覆盖，对于 <code>{}</code> 外的全局变量或者 <code>{}</code> 内的属性均表示使用值覆盖这个全局变量或者属性</p>
+<pre><code class="language-python">data = {  # 定义一个字典类型的变量 data
+    a = 1  # 使用 = 在 data 中声明一个值为 1 的属性 a
+    b = 2  # 使用 = 在 data 中声明一个值为 1 的属性 b
+}  # 最终 data 的值为 {&quot;a&quot;: 1, &quot;b&quot;: 1}
+</code></pre>
+<p>在 schema 实例化处也可以使用覆盖属性运算符实现对 schema 默认值的覆盖效果，一般在创建新的 schema 实例时如无特殊的需求，一般使用 <code>=</code> 即可</p>
+<pre><code class="language-python">schema Person:
+    name: str = &quot;Alice&quot;  # schema Person 的 name 属性具有默认值 &quot;Alice&quot;
+    age: int = 18  # schema Person 的 age 属性具有默认值 18 
+        
+bob = Person {
+    name = &quot;Bob&quot;  # &quot;Bob&quot; -&gt; &quot;Alice&quot;, 属性 name 的值 &quot;Bob&quot; 的值会覆盖 schema Person name 属性的默认值 &quot;Alice&quot;
+    age = 10  # 10 -&gt; 18, 属性 age 的值 10 的值会覆盖 schema Person age 属性的默认值 18
+}  # 最终 bob 的值为 {&quot;name&quot;: &quot;Bob&quot;, age: 10}
+</code></pre>
+<h3 id="b插入属性运算符-"><a class="header" href="#b插入属性运算符-">B.插入属性运算符 +=</a></h3>
+<p>插入属性运算符表示对一个属性的值进行原地添加，比如向一个 list 类型的属性添加新的元素</p>
+<pre><code class="language-python">data = {
+    args = [&quot;kcl&quot;]  # 使用 = 在 data 中声明一个值为 [&quot;kcl&quot;] 的属性 args
+    args += [&quot;-Y&quot;, &quot;settings.yaml&quot;]  # 使用 += 运算符向属性 args 中添加两个元素&quot;-Y&quot;, &quot;settings.yaml&quot;
+}  # 最终 data 的值为 {&quot;args&quot;: [&quot;kcl&quot;, &quot;-Y&quot;, &quot;settings.yaml&quot;]}
+</code></pre>
+<h3 id="b合并属性运算符"><a class="header" href="#b合并属性运算符">B.合并属性运算符:</a></h3>
+<p>合并属性运算符表示对一个属性的不同配置块值进行幂等的合并，当需要合并的值发生冲突时进行报错，多用于复杂配置合并场景</p>
+<pre><code class="language-python">data = {
+    labels: {key1: &quot;value1&quot;}  # 定义一个 labels, 它的类型为 dict, 值为 {&quot;key1&quot;: &quot;value1&quot;}
+    labels: {key2: &quot;value2&quot;}  # 使用 : 将 labels 不同的配置值进行合并
+}  # 最终 data 的值为 {&quot;labels&quot;: {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}}
+</code></pre>
+<p>合并属性运算符属于幂等运算符，需要合并的配置块的书写顺序不影响其最终结果，比如上述例子中的两个 <code>labels</code> 属性也可以调换顺序书写</p>
+<pre><code class="language-python">data = {  # 同一个属性 labels 的合并书写顺序不影响最终结果
+    labels: {key2: &quot;value2&quot;}  # 定义一个 labels, 它的类型为 dict, 值为 {&quot;key2&quot;: &quot;value2&quot;}
+    labels: {key1: &quot;value1&quot;}  # 使用 : 将 labels 不同的配置值进行合并
+}  # 最终 data 的值为 {&quot;labels&quot;: {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}}
+</code></pre>
+<p>注意：合并属性运算符会对合并的值进行冲突检查，当需要合并的配置值发生冲突时进行报错</p>
+<pre><code class="language-python">data = {
+    a: 1  # a 的值为 1
+    a: 2  # Error: a 的值 2 不能与 a 的值 1 进行合并，因为其结果存在冲突，且合并是不可交换的
+}
+</code></pre>
+<pre><code class="language-python">data = {
+    labels: {key: &quot;value&quot;}
+    labels: {key: &quot;override_value&quot;}  # Error: 两个 labels 的 key 属性的值 &quot;value&quot; 和 &quot;override_value&quot; 是冲突的，不可合并
+}
+</code></pre>
+<p>合并运算符对不同类型的使用方式不同</p>
+<ul>
+<li>不同类型的属性不能进行合并</li>
+<li>当属性为 int/float/str/bool 等基本类型时，运算符会判断需要合并的值是否相等，不相等时发生合并冲突错误</li>
+</ul>
+<pre><code class="language-python">data = {
+    a: 1
+    a: 1  # Ok
+    a: 2  # Error
+}
+</code></pre>
+<ul>
+<li>当属性为 list 类型时
+<ul>
+<li>当需要合并的两个 list 长度不相等时，发生合并冲突错误</li>
+<li>当需要合并的两个 list 长度相等时，按照索引递归地合并 list 当中的每一个元素</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">data = {
+    args: [&quot;kcl&quot;]
+    args: [&quot;-Y&quot;, &quot;settings.yaml&quot;]  # Error: 两个 args 属性的长度不相同，不能进行合并
+    env: [{key1: &quot;value1&quot;}]
+    env: [{key2: &quot;value2&quot;}]  # Ok: 最终 env 属性的值为 [{&quot;key1&quot;: &quot;value1&quot;}, {&quot;key2&quot;: &quot;value2&quot;}]
+}
+</code></pre>
+<ul>
+<li>当属性为 dict/schema 类型时，按照 key 递归地合并 dict/schema 当中的每一个元素</li>
+</ul>
+<pre><code class="language-python">data = {
+    labels: {key1: &quot;value1&quot;}
+    labels: {key2: &quot;value2&quot;}
+    labels: {key3: &quot;value3&quot;}
+}  # 最终 data 的值为 {&quot;labels&quot;: {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;, &quot;key3&quot;: &quot;value3&quot;}}
+</code></pre>
+<ul>
+<li>任意类型的属性与 None/Undefined 合并的结果都是其自身</li>
+</ul>
+<pre><code class="language-python">data = {
+    args: [&quot;kcl&quot;]
+    args: None  # Ok
+    args: Undefined  #Ok
+}  # 最终 data 的值为 {&quot;args&quot;: [&quot;kcl&quot;]}
+</code></pre>
+<p>支持顶级变量使用 <code>:</code> 属性声明与合并(仍然可使用 <code>config = Config {}</code> 的方式声明一个配置块)</p>
+<pre><code class="language-python">schema Config:
+    id: int
+    value: str
+
+config: Config {
+    id: 1
+}
+config: Config {
+    value: &quot;1&quot;
+}
+&quot;&quot;&quot;
+此处定义了两个 Config 配置块，使用 : 运算符将可以两个配置块合并在一起，其合并的等效代码如下:
+config: Config {
+    id: 1
+    value: &quot;1&quot;
+}
+&quot;&quot;&quot;
+</code></pre>
+<p>综上所述，合并属性运算符 <code>:</code> 的使用场景主要为复杂数据结构 list/dict/schema 的合并操作，一般情况如无特殊需求使用 <code>=</code> 和 <code>+=</code> 两种属性运算符即可，因此属性运算符的最佳实践如下</p>
+<ul>
+<li>对于基本类型，采用 <code>=</code> 运算符</li>
+<li>对于 list 类型，一般采用 <code>=</code> 和 <code>+=</code> 运算符，使用 <code>=</code> 表示完全覆盖 list 属性，使用 <code>+=</code> 表示向 list 中添加元素</li>
+<li>对于 dict/schema 类型，一般采用 <code>:</code> 运算符</li>
+</ul>
+<p>此外，当已经存在一个配置时，可以使用解包运算符 <code>**</code> 获得此配置的所有字段值并对其中的字段使用不同属性运算符进行修改，并获得一个新的配置</p>
+<pre><code class="language-python">configBase = {
+    intKey = 1  # 一个 int 类型的属性
+    floatKey = 1.0  # 一个 float 类型的属性
+    listKey = [0]  # 一个 list 类型的属性
+    dictKey = {key1: &quot;value1&quot;}  # 一个 dict 类型的属性
+}
+configNew = {
+    **configBase  # 将 configBase 解包内联到 configNew 中
+    intKey = 0  # 使用 覆盖属性运算符 = 将 intKey 属性覆盖为 1
+    floatKey = Undefined  # 使用 覆盖属性运算符 = 删除 floatKey 属性
+    listKey += [1]  # 使用 添加属性运算符 += 为 listKey 属性尾部添加一个属性 1
+    dictKey: {key2: &quot;value2&quot;}  # 使用 合并属性运算符 : 为 dictKey 属性扩展一个键-值对
+}
+</code></pre>
+<p>输出的 YAML 结果为:</p>
+<pre><code class="language-yaml">configBase:
+  intKey: 1
+  floatKey: 1.0
+  listKey:
+  - 0
+  dictKey:
+    key1: value1
+configNew:
+  intKey: 0
+  listKey:
+  - 0
+  - 1
+  dictKey:
+    key1: value1
+    key2: value2
+</code></pre>
+<p>或者可以使用 <code>|</code> 运算符对两个配置块合并:</p>
+<pre><code class="language-python">configBase = {
+    intKey = 1  # 一个 int 类型的属性
+    floatKey = 1.0  # 一个 float 类型的属性
+    listKey = [0]  # 一个 list 类型的属性
+    dictKey = {key1: &quot;value1&quot;}  # 一个 dict 类型的属性
+}
+configNew = configBase | { # 使用 | 进行合并
+    intKey = 0  # 使用 覆盖属性运算符 = 将 intKey 属性覆盖为 1
+    floatKey = Undefined  # 使用 覆盖属性运算符 = 删除 floatKey 属性
+    listKey += [1]  # 使用 添加属性运算符 += 为 listKey 属性尾部添加一个属性 1
+    dictKey: {key2: &quot;value2&quot;}  # 使用 合并属性运算符 : 为 dictKey 属性扩展一个键-值对
+}
+</code></pre>
+<p>输出的 YAML 结果为:</p>
+<pre><code class="language-yaml">configBase:
+  intKey: 1
+  floatKey: 1.0
+  listKey:
+  - 0
+  dictKey:
+    key1: value1
+configNew:
+  intKey: 0
+  listKey:
+  - 0
+  - 1
+  dictKey:
+    key1: value1
+    key2: value2
+</code></pre>
+<h3 id="bkcl-发生-conflicting-values-on-the-attribute-attr-between-value1-and-value2-错误的解决方式"><a class="header" href="#bkcl-发生-conflicting-values-on-the-attribute-attr-between-value1-and-value2-错误的解决方式">B.KCL 发生 conflicting values on the attribute 'attr' between {value1} and {value2} 错误的解决方式</a></h3>
+<p>当 KCL 发生类似 conflicting values on the attribute 'attr' between {value1} and {value2} 错误时，一般是合并属性运算符 <code>:</code> 的使用问题，表明 <code>value1</code> 和 <code>value2</code> 配置进行合并时在属性 <code>attr</code> 处发生了冲突错误。一般情况将 value2 的 attr 属性修改为其他属性运算符即可，使用 <code>=</code> 表示覆盖，使用 <code>+=</code> 表示添加</p>
+<p>比如对于如下代码:</p>
+<pre><code class="language-python">data = {k: 1} | {k: 2}  # Error: conflicting values on the attribute 'k' between {'k': 1} and {'k': 2}
+</code></pre>
+<p>则可以使用 <code>=</code> 属性运算符修改为如下形式</p>
+<pre><code class="language-python">data = {k: 1} | {k = 2}  # Ok: the value 2 will override the value 1 through the `=` operator
+</code></pre>
+<h2 id="b38-kcl-中如何同时遍历多个元素"><a class="header" href="#b38-kcl-中如何同时遍历多个元素">B.38. KCL 中如何同时遍历多个元素</a></h2>
+<p>KCL 中可以使用 for 推导表达式遍历多个元素</p>
+<ul>
+<li>举例 1: 使用 for 进行 2 维元素遍历</li>
+</ul>
+<pre><code class="language-python">dimension1 = [1, 2, 3]  # dimension1 列表的长度是 3
+dimension2 = [1, 2, 3]  # dimension2 列表的长度是 3
+matrix = [x + y for x in dimension1 for y in dimension2]  # matrix 列表的长度是 9 = 3 * 3
+</code></pre>
+<p>输出结果如下:</p>
+<pre><code class="language-yaml">dimension1:
+- 1
+- 2
+- 3
+dimension2:
+- 1
+- 2
+- 3
+matrix:
+- 2
+- 3
+- 4
+- 3
+- 4
+- 5
+- 4
+- 5
+- 6
+</code></pre>
+<ul>
+<li>举例 2: 使用 for 循环配合 zip 内置函数按照索引一一对应对多个列表进行遍历</li>
+</ul>
+<pre><code class="language-python">dimension1 = [1, 2, 3]  # dimension1 列表的长度是 3
+dimension2 = [1, 2, 3]  # dimension2 列表的长度是 3
+dimension3 = [d[0] + d[1] for d in zip(dimension1, dimension2)]  # dimension3 列表的长度是 3
+</code></pre>
+<p>输出结果如下:</p>
+<pre><code class="language-yaml">dimension1:
+- 1
+- 2
+- 3
+dimension2:
+- 1
+- 2
+- 3
+dimension3:
+- 2
+- 4
+- 6
+</code></pre>
+<h2 id="b39-kcl-中如何为-option-函数设定默认值"><a class="header" href="#b39-kcl-中如何为-option-函数设定默认值">B.39. KCL 中如何为 option 函数设定默认值</a></h2>
+<p>在 KCL 中，当 option 属性的值为 None/Undefined 空时，可以使用逻辑或 <code>or</code> 直接指定一个默认值</p>
+<pre><code class="language-python">value = option(&quot;key&quot;) or &quot;default_value&quot;  # 当 key 的值存在时，取 option(&quot;key&quot;) 的值，否则取 &quot;default_value&quot;
+</code></pre>
+<p>或者使用 option 函数的 default 参数</p>
+<pre><code class="language-python">value = option(&quot;key&quot;, default=&quot;default_value&quot;)  # 当 key 的值存在时，取 option(&quot;key&quot;) 的值，否则取 &quot;default_value&quot;
+</code></pre>
+<h2 id="b40-kcl-中-schema-怎么检查多个属性不能同时为空"><a class="header" href="#b40-kcl-中-schema-怎么检查多个属性不能同时为空">B.40. KCL 中 schema 怎么检查多个属性不能同时为空</a></h2>
+<p>在 KCL 中，对于 schema 的单个属性不能为空可以使用属性非空标记</p>
+<pre><code class="language-python">schema Person:
+    name: str  # required. name 不能为空
+    age: int  # required. age 不能为空
+    id?: int  # optional. id 可以留空
+</code></pre>
+<p>而对于需要检查 schema 属性不能同时为空或者只能有一者为空的情况时，需要借助 schema check 表达式进行书写，下面以同一个 schema Config 的两个属性 a, b 为例进行说明</p>
+<ul>
+<li>Config 的 a, b 属性不能同时为空</li>
+</ul>
+<pre><code class="language-python">schema Config:
+    a?: str
+    b?: str
+
+    check:
+        a or b, &quot;a属性和b属性不能同时为空&quot;
+</code></pre>
+<ul>
+<li>Config 的 a, b 属性只能有一个为空或者都为空（不能同时存在或不为空）</li>
+</ul>
+<pre><code class="language-python">schema Config:
+    a?: str
+    b?: str
+
+    check:
+        a or b, &quot;a属性和b属性不能同时填写&quot;
+</code></pre>
+<h2 id="b41-kcl-中-import-了某个文件但是找不到其同目录下其他-kcl-文件定义的-schema-可能是什么原因"><a class="header" href="#b41-kcl-中-import-了某个文件但是找不到其同目录下其他-kcl-文件定义的-schema-可能是什么原因">B.41. KCL 中 import 了某个文件但是找不到其同目录下其他 KCL 文件定义的 schema 可能是什么原因</a></h2>
+<p>可能是与使用 import 仅导入了这个文件夹的这一个文件导致，在 KCL 中，import 支持导入整个文件夹，也支持导入某一个文件夹下的的某一个 KCL 文件，比如对于如下目录结构</p>
+<pre><code>.
+├── kcl.mod
+├── main.k
+└── pkg
+    ├── pkg1.k
+    ├── pkg2.k
+    └── pkg3.k
+</code></pre>
+<p>在根目录下存在入口文件 main.k，可以在 main.k 中书写如下代码导入整个 pkg 文件夹，此时 pkg 文件夹下的所有 schema 定义互相可见</p>
+<pre><code class="language-python">import pkg
+</code></pre>
+<p>还可以书写如下代码导入单个文件 pkg/pkg1.k，此时 pkg1.k 不能找到其他文件即 pkg2.k/pkg3.k 下的 schema 定义</p>
+<pre><code class="language-python">import pkg.pkg1
+</code></pre>
+<h2 id="b42-kcl-中的缩进是如何处理的"><a class="header" href="#b42-kcl-中的缩进是如何处理的">B.42. KCL 中的缩进是如何处理的?</a></h2>
+<p>在 KCL 中，在出现冒号 <code>:</code>、中括号对 <code>[]</code> 以及大括号对 <code>{}</code> 时，一般需要使用换行 + 缩进，同一缩进级的缩进空格数需要保持一致，一个缩进级一般采用 4 个空格表示</p>
+<ul>
+<li>冒号 <code>:</code> 后跟换行 + 缩进</li>
+</ul>
+<pre><code class="language-python">&quot;&quot;&quot;if 语句中的缩进&quot;&quot;&quot;
+_a = 1
+_b = 1
+if _a &gt;= 1:  # 冒号后跟换行+缩进
+    if _a &gt; 8:
+        _b = 2
+    elif a &gt; 6:
+        _b = 3
+
+&quot;&quot;&quot;schema 定义中的缩进&quot;&quot;&quot;
+schema Person:  # 冒号后跟换行+缩进
+    name: str
+    age: int
+</code></pre>
+<ul>
+<li>中括号对 <code>[]</code> 后跟换行 + 缩进</li>
+</ul>
+<pre><code class="language-python">data = [  # 左中括号 [ 后跟换行+缩进
+    1
+    2
+    3
+]  # 右中括号 ] 前取消缩进
+</code></pre>
+<pre><code class="language-python">data = [  # 左中括号 [ 后跟换行+缩进
+    i * 2 for i in range(5)
+]  # 右中括号 ] 前取消缩进
+</code></pre>
+<ul>
+<li>大括号对 <code>{}</code> 后跟换行 + 缩进</li>
+</ul>
+<pre><code class="language-python">data = {  # 左大括号 { 后跟换行+缩进
+    k1 = &quot;v1&quot;
+    k2 = &quot;v2&quot;
+}  # 右大括号 } 前取消缩进
+</code></pre>
+<pre><code class="language-python">data = {  # 左大括号 { 后跟换行+缩进
+    str(i): i * 2 for i in range(5)
+}  # 右大括号 } 前取消缩进
+</code></pre>
+<h2 id="b43-如何为-kcl-代码编写简单的测试"><a class="header" href="#b43-如何为-kcl-代码编写简单的测试">B.43. 如何为 KCL 代码编写简单的测试？</a></h2>
+<p>KCL 目前的版本还不支持内部程序调试，可以使用 assert 语句以及 print 函数实现数据的断言和打印查看</p>
+<pre><code class="language-python">a = 1
+print(&quot;The value of a is&quot;, a)
+assert a == 1
+</code></pre>
+<p>此外，还可以借助 kcl-test 测试工具编写 KCL 内部编写测试用例</p>
+<p>假设有 hello.k 文件，代码如下:</p>
+<pre><code class="language-python">schema Person:
+    name: str = &quot;kcl&quot;
+    age: int = 1
+
+hello = Person {
+    name = &quot;hello kcl&quot;
+    age = 102
+}
+</code></pre>
+<p>构造 hello_test.k 测试文件，内容如下：</p>
+<pre><code class="language-python">schema TestPerson:
+    a = Person{}
+    assert a.name == 'kcl'
+
+schema TestPerson_age:
+    a = Person{}
+    assert a.age == 1
+
+schema TestPerson_ok:
+    a = Person{}
+    assert a.name == &quot;kcl&quot;
+    assert a.age == 1
+</code></pre>
+<p>然后再目录下执行 kcl-test 命令:</p>
+<pre><code>$ kcl-test
+ok   /pkg/to/app [365.154142ms]
+$
+</code></pre>
+<h2 id="b44-kcl-中如何定义函数或定义方法"><a class="header" href="#b44-kcl-中如何定义函数或定义方法">B.44. KCL 中如何定义函数或定义方法？</a></h2>
+<p>schema 结构在一定程度上充当了函数的功能，并且这个函数具有多个输入参数和多个输出参数的能力，比如如下代码可以实现一个斐波那契数列的功能:</p>
+<pre><code class="language-python">schema Fib:
+    n: int
+    value: int = 1 if n &lt;= 2 else (Fib {n: n - 1}).value + (Fib {n: n - 2}).value
+
+fib8 = (Fib {n: 8}).value
+</code></pre>
+<p>输出结果为:</p>
+<pre><code class="language-yaml">fib8: 21
+</code></pre>
+<p>一个合并列表为字典的 schema 函数</p>
+<pre><code class="language-python">schema UnionAll[data, n]:
+    _?: [] = data
+    value?: {:} = ((UnionAll(data=data, n=n - 1) {}).value | data[n] if n &gt; 0 else data[0]) if data else {}
+
+schema MergeList[data]:
+    &quot;&quot;&quot;Union一个列表中的所有元素返回合并字典
+
+    [{&quot;key1&quot;: &quot;value1&quot;}, {&quot;key2&quot;: &quot;value2&quot;}, {&quot;key3&quot;: &quot;value3&quot;}] -&gt; {&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;, &quot;key3&quot;: &quot;value3&quot;}
+    &quot;&quot;&quot;
+    _?: [] = data
+    value?: {:} = (UnionAll(data=data, n=len(data) - 1) {}).value if data else {}
+</code></pre>
+<p>此外，KCL 支持使用 <code>lambda</code> 关键字定义一个函数:</p>
+<pre><code class="language-python">func = lambda x: int, y: int -&gt; int {
+    x + y
+}
+a = func(1, 1)  # 2
+</code></pre>
+<p>lambda 函数具有如下特性：</p>
+<ul>
+<li>lambda 函数将最后一个表达式的值作为函数的返回值，空函数体返回 None。</li>
+<li>返回值类型注解可以省略，返回值类型为最后一个表达式值的类型</li>
+<li>函数体中没有与顺序无关的特性，所有的表达式都是按顺序执行的</li>
+</ul>
+<pre><code class="language-python">_func = lambda x: int, y: int -&gt; int {
+    x + y
+}  # Define a function using the lambda expression
+_func = lambda x: int, y: int -&gt; int {
+    x - y
+}  # Ok
+_func = lambda x: int, y: int -&gt; str {
+    str(x + y)
+}  # Error (int, int) -&gt; str can't be assigned to (int, int) -&gt; int
+</code></pre>
+<p>lambda 函数对象不能参与任何计算，只能在赋值语句和调用语句中使用。</p>
+<pre><code class="language-python">func = lambda x: int, y: int -&gt; int {
+    x + y
+}
+x = func + 1  # Error: unsupported operand type(s) for +: 'function' and 'int(1)'
+</code></pre>
+<pre><code class="language-python">a = 1
+func = lambda x: int {
+    x + a
+}
+funcOther = lambda f, para: int {
+    f(para)
+}
+r = funcOther(func, 1)  # 2
+</code></pre>
+<p>输出为：</p>
+<pre><code class="language-python">a: 1
+r: 2
+</code></pre>
+<p>可以定义一个匿名函数并直接调用</p>
+<pre><code class="language-python">result = (lambda x, y {
+    z = 2 * x
+    z + y
+})(1, 1)  # 3
+</code></pre>
+<p>可以在 for 循环使用使用匿名函数</p>
+<pre><code class="language-python">result = [(lambda x, y {
+    x + y
+})(x, y) for x in [1, 2] for y in [1, 2]]  # [2, 3, 3, 4]
+</code></pre>
+<p>可以在 KCL schema 中定义并使用函数</p>
+<pre><code class="language-python">_funcOutOfSchema = lambda x: int, y: int {
+    x + y
+}
+schema Data:
+    _funcInSchema = lambda x: int, y: int {
+        x + y
+    }
+    id0: int = _funcOutOfSchema(1, 1)
+    id1: int = _funcInSchema(1, 1)
+    id2: int = (lambda x: int, y: int {
+        x + y
+    })(1, 1)
+</code></pre>
+<p>输出 YAML 为:</p>
+<pre><code class="language-yaml">data:
+  id0: 2
+  id1: 2
+  id2: 2
+</code></pre>
+<h2 id="b45-为什么变量赋值为枚举类型字面值联合类型时会报错"><a class="header" href="#b45-为什么变量赋值为枚举类型字面值联合类型时会报错">B.45. 为什么变量赋值为枚举类型(字面值联合类型)时会报错</a></h2>
+<p>在 KCL 中，被定义为字面值联合类型的属性，在赋值时仅允许接收一个字面值或者同为字面值联合类型的变量，比如如下代码是正确的：</p>
+<pre><code class="language-python">schema Data:
+    color: &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;
+
+data = Data {
+    color = &quot;Red&quot;  # Ok, 赋值为 &quot;Red&quot;、&quot;Yellow&quot; 和 &quot;Blue&quot; 均可
+} 
+</code></pre>
+<p>然而以下代码是错误的：</p>
+<pre><code class="language-python">schema Data:
+    color: &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;
+
+_color = &quot;Red&quot;
+
+data = Data {
+    color = _color  # Error: expect str(Red)|str(Yellow)|str(Blue), got str
+} 
+</code></pre>
+<p>这是因为没有为变量 <code>_color</code> 申明一个类型，它会被 KCL 编译器推导为 <code>str</code> 字符串类型，因此当一个 “较大” 的类型 <code>str</code> 赋值为一个 “较小” 的类型时 <code>&quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;</code> 会报错，一个解决方式是为 <code>_color</code> 变量声明一个类型，以下代码是正确的：</p>
+<pre><code class="language-python">schema Data:
+    color: &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;
+
+_color: &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot; = &quot;Red&quot;
+
+data = Data {
+    color = _color  # Ok
+}
+</code></pre>
+<p>进一步地，我们可以使用类型别名来简化枚举(字面值联合类型的书写)，比如如下代码：</p>
+<pre><code class="language-python">type Color = &quot;Red&quot; | &quot;Yellow&quot; | &quot;Blue&quot;  # 定义一个类型别名，可以在不同的地方重复使用，降低代码书写量
+
+schema Data:
+    color: Color
+
+_color: Color = &quot;Red&quot;
+
+data = Data {
+    color = _color  # Ok
+}
+</code></pre>
+<h2 id="b46-如何通过编写-kcl-插件进行扩展例如-cmdb-查询等"><a class="header" href="#b46-如何通过编写-kcl-插件进行扩展例如-cmdb-查询等">B.46. 如何通过编写 KCL 插件进行扩展（例如 CMDB 查询等）?</a></h2>
+<p>KCL 插件在 KCLVM 的 plugins 子目录（通常安装在 <code>$HOME/.kusion/kclvm/plugins</code> 目录），或者通过 <code>$KCL_PLUGINS_ROOT</code> 环境变量设置（环境变量优先级更高）。对于插件开发人员，插件都在 Git 仓库管理，可以将插件仓库克隆到该目录进行开发。</p>
+<p>KCL 内置了 kcl-plugin 脚手架命令用于辅助用户使用 Python 语言编写 KCL 插件，以便在 KCL 文件当中调用相应的插件对 KCL 语言本身进行增强，比如访问网络，读写 IO，CMDB 查询和加密解密等功能。</p>
+<pre><code>usage: kcl-plugin [-h] {list,init,info,gendoc,test} ...
+
+positional arguments:
+  {list,init,info,gendoc,test}
+                        kcl plugin sub commands
+    list                list all plugins
+    init                init a new plugin
+    info                show plugin document
+    gendoc              gen all plugins document
+    test                test plugin
+
+optional arguments:
+  -h, --help            show this help message and exit
+</code></pre>
+<p>比如想要开发一个名为 io 插件，就可以使用如下命令成功新建一个 io 插件</p>
+<pre><code>kcl-plugin init io
+</code></pre>
+<p>然后可以使用如下命令获得 plugin 的根路径并 cd 到相应的 io 插件目录进行开发</p>
+<pre><code>kcl-plugin info
+</code></pre>
+<p>比如想要开发一个读文件的函数 read_file，就可以在 <code>$plugin_root/io</code> 的 <code>plugin.py</code> 中进行 python 代码编写：</p>
+<pre><code class="language-python"># Copyright 2020 The KCL Authors. All rights reserved.
+
+import pathlib
+
+INFO = {
+    'name': 'io',
+    'describe': 'my io plugin description test',
+    'long_describe': 'my io plugin long description test',
+    'version': '0.0.1',
+}
+
+
+def read_file(file: str) -&gt; str:
+    &quot;&quot;&quot;Read string from file&quot;&quot;&quot;
+    return pathlib.Path(file).read_text()
+
+</code></pre>
+<p>另外可以在 <code>plugin_test.py</code> 中编写相应的测试函数，也可以直接编写如下所示 KCL 文件进行测试：</p>
+<pre><code class="language-python">import kcl_plugin.io
+
+text = io.read_file('test.txt')
+</code></pre>
+<p>还可以使用 info 命令查看 io 插件的信息</p>
+<pre><code>kcl-plugin info io
+</code></pre>
+<pre><code>{
+    &quot;name&quot;: &quot;io&quot;,
+    &quot;describe&quot;: &quot;my io plugin description test&quot;,
+    &quot;long_describe&quot;: &quot;my io plugin long description test&quot;,
+    &quot;version&quot;: &quot;0.0.1&quot;,
+    &quot;method&quot;: {
+        &quot;read_file&quot;: &quot;Read string from file&quot;
+    }
+}
+</code></pre>
+<p>最后将编写测试完成的插件在 <code>kcl_plugins</code> 仓库提 MR 合并即可</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendix/a-faq.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../appendix/c-ref.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendix/a-faq.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../appendix/c-ref.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
