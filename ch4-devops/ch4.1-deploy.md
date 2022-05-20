@@ -8,11 +8,11 @@
 
 1、安装 Kusion 工具链
 
-我们推荐使用 kusion 的官方安装工具 `kusionup`，可实现 kusion 多版本管理等关键能力。详情信息请参阅[下载和安装](/user_docs/getting-started/install.md)。
+我们推荐使用 kusion 的官方安装工具 `kusionup`，可实现 kusion 多版本管理等关键能力。详情信息请参阅[下载和安装](https://kusionstack.io/docs/user_docs/getting-started/install)。
 
 2、下载开源 Konfig 大库
 
-在本篇指南中，需要用到部分已经抽象实现的 KCL 模型，有关 KCL 语言的介绍，可以参考 [Tour of KCL](/reference/lang/lang/tour.md)。
+在本篇指南中，需要用到部分已经抽象实现的 KCL 模型，有关 KCL 语言的介绍，可以参考 [Tour of KCL](https://kusionstack.io/docs/reference/lang/lang/tour)。
 
 仓库地址： [https://github.com/KusionStack/konfig.git](https://github.com/KusionStack/konfig.git)
 
@@ -60,7 +60,7 @@ Created project 'deployment-single-stack'
 剩余三个字段，是模板中需要用户填入的三个属性，`Stack` 表示配置栈的名称，可以理解为配置的隔离标识；
 `ClusterName` 是指集群名称，在本例中暂未使用；`Image` 表示 Deployment 的主容器的镜像地址。
 
-> 有关 Project 和 Stack 的设计说明，请参阅 [Project&Stack](/user_docs/concepts/project-stack.md)。
+> 有关 Project 和 Stack 的设计说明，请参阅 [Project&Stack](https://kusionstack.io/docs/user_docs/concepts/project-stack)。
 
 该项目的目录结构如下：
 
@@ -101,7 +101,7 @@ cd deployment-single-stack/dev && kusion compile
 
 输出默认保存在 `deployment-single-stack/dev/ci-test/stdout.golden.yaml` 文件中。
 
-> 有关 kusion 命令行工具的说明，执行 `kusion -h`，或者参考工具的在线文档 [Overview of Kusion CLI](/internal/kusion-cli/overview-of-kusion-cli.md)。
+> 有关 kusion 命令行工具的说明，执行 `kusion -h`，或者参考工具的在线文档 [Overview of Kusion CLI](https://kusionstack.io/docs/reference/cli/kusionctl/overview)。
 
 ## 4.1.4 配置生效
 

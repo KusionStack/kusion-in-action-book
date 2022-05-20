@@ -100,7 +100,7 @@ Kubernetes 内置模型的完整 OpenAPI 定义存放在 [Kubernetes openapi-spe
   }
   ```
 
-  在 Konfig 仓库中增加以上配置声明，经过的编译后，其结果等价于 [Kubernetes examples guestbook-frontend](https://github.com/kubernetes/examples/blob/master/guestbook/frontend-deployment.yaml)，关于 Konfig 仓库及编译命令可参考 [Konfig 模型库快速开始](https://kusionstack.io/docs/reference/model/model-quick-start)。
+  在 Konfig 仓库中增加以上配置声明，经过的编译后，其结果等价于 [Kubernetes examples guestbook-frontend](https://github.com/kubernetes/examples/blob/master/guestbook/frontend-deployment.yaml)，关于 Konfig 仓库及编译命令可参考 [Konfig 模型库快速开始](https://kusionstack.io/docs/user_docs/getting-started/konfig)。
 * 最佳实践：对 Kubernetes 模型进一步抽象，定义用户友好的界面
 
   由于 Kubernetes 内置模型较为原子化和复杂，我们推荐以 Kubernetes 原生模型作为后端输出的模型，而向用户暴露一份更为友好和简单的前端模型界面。在 Konfig 的 kusion_models 目录中已经保存了一份经过良好抽象的模型 —— Server 模型，点此查看 [Server Schema](https://github.com/KusionStack/konfig/blob/master/base/pkg/kusion_models/kube/frontend/server.k)

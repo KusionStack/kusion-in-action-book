@@ -49,7 +49,7 @@ schedulingStrategy.resource = res.Resource {
 
 通过配置 mainContainer 设置主容器，此配置存在于 `base/bask.k` 文件中。
 
-> 有关主容器的抽象定义，可以查看 Konfig 仓库中 [base.pkg.kusion_models.kube.frontend.container](/docs/reference/model/models/kube/frontend/container) 模块的文档。
+> 有关主容器的抽象定义，可以查看 Konfig 仓库中 [base.pkg.kusion_models.kube.frontend.container](https://kusionstack.io/docs/reference/model/kusion_models/kube/frontend/container/doc_container) 模块的文档。
 
 `base/bask.k` 中主容器配置：
 
@@ -75,7 +75,7 @@ appConfiguration: frontend.Server {
 
 通过 if-else 添加差异化配置，比如根据实际部署的集群名称设置不同的 labels。
 
-> 有关 KCL 语义相关的详细说明，请参阅[表达式](/reference/lang/lang/spec/expressions.md)。
+> 有关 KCL 语义相关的详细说明，请参阅[表达式](https://kusionstack.io/docs/reference/lang/lang/spec/expressions)。
 
 `base/bask.k` 中 Pod Label 的配置：
 
@@ -94,7 +94,7 @@ appConfiguration: frontend.Server {
 
 Service 的名称、类型、暴露的端口号等字段，可通过 `services` 字段配置。
 
-> 有关 [Service](/reference/model/models/kube/frontend/service/service.md) 的抽象定义，可以查看 Konfig 仓库中 `base/pkg/kusion_models/kube/frontend/service/service.k` 文件。
+> 有关 [Service](https://kusionstack.io/docs/reference/model/kusion_models/kube/frontend/service/doc_service) 的抽象定义，可以查看 Konfig 仓库中 `base/pkg/kusion_models/kube/frontend/service/service.k` 文件。
 
 `base/bask.k` 中 Service 的配置：
 

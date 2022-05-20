@@ -12,7 +12,7 @@ F**usion** Cloud Native on **K**ubernetes. Kusion 一词来源于 fusion（意�
 
 ## A.1.3 小写的 kcl 命令
 
-[kcl](/docs/reference/cli/kcl/kcl-cmd) 命令行工具。一般使用全大写字母的 KCL 代指 KCL 语言，而用全小写的 kcl 代指能将 KCL 代码编译为低层次数据输出（如 YAML, JSON 等）的 kcl 命令行工具。
+[kcl](https://kusionstack.io/docs/reference/cli/kcl/overview) 命令行工具。一般使用全大写字母的 KCL 代指 KCL 语言，而用全小写的 kcl 代指能将 KCL 代码编译为低层次数据输出（如 YAML, JSON 等）的 kcl 命令行工具。
 
 ## A.1.4 KCLVM
 
@@ -20,7 +20,7 @@ F**usion** Cloud Native on **K**ubernetes. Kusion 一词来源于 fusion（意�
 
 ## A.1.5 KusionCtl
 
-Kusion Kubernetes Client。[KusionCtl](/docs/reference/cli/kusionctl/overview) 命令行工具旨在简化用户对 K8S 的使用，内置支持对 KCL 的编译、通过登录功能原生支持 Identity 能力，支持多集群访问，提供资源状态汇总及相应的白屏展示、对用户变更模型及其关联模型的变更追踪、链路可视化、live 对比、关键资源可视化、异常定位等功能。
+Kusion Kubernetes Client。[KusionCtl](https://kusionstack.io/docs/reference/cli/kusionctl) 命令行工具旨在简化用户对 K8S 的使用，内置支持对 KCL 的编译、通过登录功能原生支持 Identity 能力，支持多集群访问，提供资源状态汇总及相应的白屏展示、对用户变更模型及其关联模型的变更追踪、链路可视化、live 对比、关键资源可视化、异常定位等功能。
 
 ## A.1.6 Konfig
 
